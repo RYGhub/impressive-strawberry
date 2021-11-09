@@ -17,7 +17,7 @@ target_metadata = Base
 
 def run_migrations_offline():
     context.configure(
-        url=environ["sqlalchemy.uri"],
+        url=environ["IS_DB_URI"],
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},

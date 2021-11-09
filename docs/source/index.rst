@@ -6,7 +6,7 @@ Impressive Strawberry
 
 
 Useful links
-============
+------------
 
 * :ref:`genindex`
 * :ref:`modindex`
