@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "impressive_strawberry"
+version = "0.1.0"
+description = "Achievements-as-a-service"
+authors = ["Stefano Pigozzi <me@steffo.eu>", "Lorenzo Balugani <lorenzo.balugani@gmail.com>"]
+license = "AGPL-3.0-or-later"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.70.0"
+SQLAlchemy = "^1.4.26"
+alembic = "^1.7.4"
+psycopg2-binary = "^2.9.1"
+python-dotenv = "^0.19.1"
+uvicorn = "^0.15.0"
+
+[tool.poetry.dev-dependencies]
+Sphinx = "^4.2.0"
+sphinx-rtd-theme = "^1.0.0"
+sphinx-autobuild = "^2021.3.14"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
