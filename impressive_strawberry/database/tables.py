@@ -49,8 +49,8 @@ class Application(Base):
     token = Column(String, nullable=False, default=secrets.token_urlsafe)
     webhook = Column(String, nullable=False)
 
-    groups = relationship("Group", backref="application")
-    users = relationship("User", backref="application")
+    groups = relationship("Group", back_populates="application")
+    users = relationship("User", back_populates="application")
 
 
 class Group(Base):
