@@ -39,30 +39,18 @@ class Alloy(enum.IntEnum):
 
 class Application(Base):
     """
-    The Application is the highest abstraction in the hierarchy of the database, usually a bot.
-    An Application may have several groups connected to it.
+    An :class:`.Application` represents an entity interacting with :mod:`impressive_strawberry`, such as a website or a bot.
     """
 
     __tablename__ = "applications"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
-    token = Column(String, nullable=False)
+    token = Column(String, nullable=False, default=secrets.token_urlsafe)
     webhook = Column(String, nullable=False)
 
     groups = relationship("Group", backref="application")
     users = relationship("User", backref="application")
-
-    def __init__(self, **kwargs):
-        super(Application, self).__init__(**kwargs)
-        self.set_token()
-
-    def set_token(self):
-        """
-        Sets the token of the application, called right after initialization.
-        :return:
-        """
-        self.token = secrets.token_urlsafe(TOKEN_LEN)
 
 
 class Group(Base):
