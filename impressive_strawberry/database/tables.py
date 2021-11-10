@@ -55,21 +55,27 @@ class Application(Base):
 
 class Group(Base):
     """
-    Group SQLAlchemy model.
-    The Group is the entity that possesses achievements.
-    It can be a Discord Server, or other kinds of stuff.
+    A :class:`.Group` represents a grouping of :class:`.Achievement`\\ s in an application.
+
+    If, for example, the application is a Discord Bot, the :class:`.Group` represents the Discord Guild / Server.
     """
 
     __tablename__ = "groups"
+    __table_args__ = (
+        # To avoid an application having the same server over and over, uniqueness between the crystal and the application_id is needed
+        UniqueConstraint('application_id', 'crystal'),
+    )
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
-    crystal = Column(String, nullable=False)
-
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     application_id = Column(UUID(as_uuid=True), ForeignKey("application.id"), nullable=False)
-    achievements = relationship("Achievement", backref="group")
-    # To avoid an application having the same server over and over, uniqueness between the crystal
-    # and the application_id is needed
-    __table_args__ = (UniqueConstraint('application_id', 'crystal'),)
+
+    crystal = Column(String, nullable=False)
+    """
+    :class:`Application`\\ s can identify :class:`.Group`\\ s through a custom identifier, the :attr:`.crystal`, which is specified on creation.
+    """
+
+    application = relationship("Application", back_populates="groups")
+    achievements = relationship("Achievement", back_populates="group")
 
 
 class Achievement(Base):
