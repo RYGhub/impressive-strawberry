@@ -11,20 +11,39 @@ Base = sqlalchemy.orm.declarative_base()
 TOKEN_LEN = 20
 
 
-class AlloyEnum(enum.Enum):
-    bronze = 0
-    silver = 1
-    gold = 2
+class Alloy(enum.IntEnum):
+    """
+    An alloy represents the rarity of an :class:`.Achievement`.
+
+    :class:`int` values represent the rarity of the achievement; higher values represent rarer achievements.
+
+    The rarity of alloys can be compared as if they were integers:
+
+    >>> Alloy.BRONZE < Alloy.SILVER
+    True
+    >>> Alloy.SILVER < Alloy.GOLD
+    True
+    >>> Alloy.GOLD == Alloy.GOLD
+    True
+    """
+
+    BRONZE = 100
+    "A common :class:`.Achievement`."
+
+    SILVER = 250
+    "An uncommon :class:`.Achievement`."
+
+    GOLD = 1000
+    "A rare :class:`.Achievement`."
 
 
 class Application(Base):
     """
-    Application SQLAlchemy model.
     The Application is the highest abstraction in the hierarchy of the database, usually a bot.
     An Application may have several groups connected to it.
     """
 
-    __tablename__ = "application"
+    __tablename__ = "applications"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     name = Column(String, nullable=False)
@@ -53,7 +72,7 @@ class Group(Base):
     It can be a Discord Server, or other kinds of stuff.
     """
 
-    __tablename__ = "group"
+    __tablename__ = "groups"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     crystal = Column(String, nullable=False)
@@ -75,7 +94,7 @@ class Achievement(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
     name = Column(String, nullable=False)
     description = Column(String)
-    alloy = Column(Enum(AlloyEnum), nullable=False, default=AlloyEnum.bronze)
+    alloy = Column(Enum(Alloy), nullable=False, default=Alloy.bronze)
     secret = Column(Boolean, nullable=False, default=False)
     icon = Column(String)
     repeatable = Column(Boolean, nullable=False, default=False)

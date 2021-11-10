@@ -1,7 +1,7 @@
 import pydantic
 from typing import List, Optional
 import uuid
-from impressive_strawberry.database.tables import AlloyEnum
+from impressive_strawberry.database.tables import Alloy
 from datetime import datetime
 
 
@@ -53,7 +53,7 @@ class AchievementCreate(StrawberryORMModel):
     """
     name: str
     description: str
-    alloy: AlloyEnum
+    alloy: Alloy
     secret: bool
     icon: str
     repeatable: bool
