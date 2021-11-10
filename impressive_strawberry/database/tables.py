@@ -11,111 +11,134 @@ Base = sqlalchemy.orm.declarative_base()
 TOKEN_LEN = 20
 
 
-class AlloyEnum(enum.Enum):
-    bronze = 0
-    silver = 1
-    gold = 2
+class Alloy(enum.IntEnum):
+    """
+    An alloy represents the rarity of an :class:`.Achievement`.
+
+    :class:`int` values represent the rarity of the achievement; higher values represent rarer achievements.
+
+    The rarity of alloys can be compared as if they were integers:
+
+    >>> Alloy.BRONZE < Alloy.SILVER
+    True
+    >>> Alloy.SILVER < Alloy.GOLD
+    True
+    >>> Alloy.GOLD == Alloy.GOLD
+    True
+    """
+
+    BRONZE = 100
+    "A common :class:`.Achievement`."
+
+    SILVER = 250
+    "An uncommon :class:`.Achievement`."
+
+    GOLD = 1000
+    "A rare :class:`.Achievement`."
 
 
 class Application(Base):
     """
-    Application SQLAlchemy model.
-    The Application is the highest abstraction in the hierarchy of the database, usually a bot.
-    An Application may have several groups connected to it.
+    An :class:`.Application` represents an entity interacting with :mod:`impressive_strawberry`, such as a website or a bot.
     """
 
-    __tablename__ = "application"
+    __tablename__ = "applications"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
-    token = Column(String, nullable=False)
+    token = Column(String, nullable=False, default=secrets.token_urlsafe)
     webhook = Column(String, nullable=False)
 
-    groups = relationship("Group", backref="application")
-    users = relationship("User", backref="application")
-
-    def __init__(self, **kwargs):
-        super(Application, self).__init__(**kwargs)
-        self.set_token()
-
-    def set_token(self):
-        """
-        Sets the token of the application, called right after initialization.
-        :return:
-        """
-        self.token = secrets.token_urlsafe(TOKEN_LEN)
+    groups = relationship("Group", back_populates="application")
+    users = relationship("User", back_populates="application")
 
 
 class Group(Base):
     """
-    Group SQLAlchemy model.
-    The Group is the entity that possesses achievements.
-    It can be a Discord Server, or other kinds of stuff.
+    A :class:`.Group` represents a grouping of :class:`.Achievement`\\ s in an :class:`.Application`.
+
+    If, for example, the application is a Discord Bot, the :class:`.Group` represents the Discord Guild / Server.
     """
 
-    __tablename__ = "group"
+    __tablename__ = "groups"
+    __table_args__ = (
+        # To avoid an application having the same server over and over, uniqueness between the crystal and the application_id is needed
+        UniqueConstraint('application_id', 'crystal'),
+    )
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    application_id = Column(UUID(as_uuid=True), ForeignKey("applications.id"), nullable=False)
+
     crystal = Column(String, nullable=False)
+    """
+    :class:`Application`\\ s can identify :class:`.Group`\\ s through a custom identifier, the :attr:`.crystal`, which is specified on creation.
+    """
 
-    application_id = Column(UUID(as_uuid=True), ForeignKey("application.id"), nullable=False)
-    achievements = relationship("Achievement", backref="group")
-    # To avoid an application having the same server over and over, uniqueness between the crystal
-    # and the application_id is needed
-    __table_args__ = (UniqueConstraint('application_id', 'crystal'),)
+    application = relationship("Application", back_populates="groups")
+    achievements = relationship("Achievement", back_populates="group")
 
 
 class Achievement(Base):
     """
-    Achievement SQLAlchemy model.
+    An :class:`.Achievement` represents an award that can be bestowed by an :class:`.Application` to an :class:`.User`.
+
+    All :class:`.Achievement`\\ s belong to a :class:`.Group`.
     """
 
-    __tablename__ = "achievement"
+    __tablename__ = "achievements"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
-    description = Column(String)
-    alloy = Column(Enum(AlloyEnum), nullable=False, default=AlloyEnum.bronze)
+    description = Column(String, nullable=False, default="")
+    alloy = Column(Enum(Alloy), nullable=False)
     secret = Column(Boolean, nullable=False, default=False)
     icon = Column(String)
     repeatable = Column(Boolean, nullable=False, default=False)
+    group_id = Column(UUID(as_uuid=True), ForeignKey("groups.id"), nullable=False)
 
-    group_id = Column(UUID(as_uuid=True), ForeignKey("group.id"), nullable=False)
+    group = relationship("Group", back_populates="achievements")
+    unlocks = relationship("Unlock", back_populates="achievement")
 
 
 class Unlock(Base):
     """
-    Unlock SQLAlchemy model.
-    Used to keep track of user's progress with achievements in a group.
+    An :class:`.Unlock` represents the bestowing of an :class:`.Achievement` to an :class:`.User`.
+
+    If the achievement is :attr:`~.Achievement.repeatable`, multiple :class:`.Unlock`\\ s for it can exist.
     """
 
-    __tablename__ = "unlock"
+    __tablename__ = "unlocks"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
-    unlocked_on = Column(DateTime, nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    timestamp = Column(DateTime, nullable=False, default=datetime.datetime.now)
+    achievement_id = Column(UUID(as_uuid=True), ForeignKey("achievements.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
 
-    achievement_id = Column(UUID(as_uuid=True), ForeignKey("achievement.id"), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=False)
-    unlocked_by = relationship("User", backref="unlocks")
-    achievement = relationship("Achievement", backref="unlocks")
-
-    def __init__(self, **kwargs):
-        super(Unlock, self).__init__(**kwargs)
-        self.unlocked_on = datetime.datetime.now()
+    achievement = relationship("Achievement", back_populates="unlocks")
+    user = relationship("User", back_populates="unlocks")
 
 
 class User(Base):
     """
-    User SQLAlchemy model.
-    Contains unique external identifier of the user.
+    An :class:`.User` is the representation of a person in an :class:`.Application`.
+
+    If, for example, the application is a Discord Bot, the :class:`.User` represents the corresponding Discord User.
     """
 
-    __tablename__ = "user"
+    __tablename__ = "users"
+    __table_args__ = (
+        # To avoid an user registered to the same server over and over, uniqueness between the crystal
+        # and the application_id is needed
+        UniqueConstraint('application_id', 'crystal'),
+    )
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
-    crystal = Column(String, nullable=False)
-
     application_id = Column(UUID(as_uuid=True), ForeignKey("application.id"), nullable=False)
-    # To avoid an user registered to the same server over and over, uniqueness between the crystal
-    # and the application_id is needed
-    __table_args__ = (UniqueConstraint('application_id', 'crystal'),)
+
+    crystal = Column(String, nullable=False)
+    """
+    :class:`Application`\\ s can identify :class:`.Group`\\ s through a custom identifier, the :attr:`.crystal`, which is specified on creation.
+    """
+
+    application = relationship("Application", back_populates="groups")
+    unlocks = relationship("User", back_populates="user")
