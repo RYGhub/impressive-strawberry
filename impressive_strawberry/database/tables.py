@@ -1,6 +1,6 @@
 import sqlalchemy.orm
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String, ForeignKey, UniqueConstraint, Enum, Boolean, DateTime
+from sqlalchemy import Column, String, ForeignKey, UniqueConstraint, Enum, Boolean, DateTime, Text
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 import secrets
@@ -46,6 +46,7 @@ class Application(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
+    description = Column(Text, nullable=False, default="")
     token = Column(String, nullable=False, default=secrets.token_urlsafe)
     webhook = Column(String, nullable=False)
 
