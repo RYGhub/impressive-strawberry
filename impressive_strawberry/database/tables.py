@@ -134,12 +134,12 @@ class User(Base):
     )
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
-    application_id = Column(UUID(as_uuid=True), ForeignKey("application.id"), nullable=False)
+    application_id = Column(UUID(as_uuid=True), ForeignKey("applications.id"), nullable=False)
 
     crystal = Column(String, nullable=False)
     """
     :class:`Application`\\ s can identify :class:`.Group`\\ s through a custom identifier, the :attr:`.crystal`, which is specified on creation.
     """
 
-    application = relationship("Application", back_populates="groups")
-    unlocks = relationship("User", back_populates="user")
+    application = relationship("Application", back_populates="users")
+    unlocks = relationship("Unlock", back_populates="user")
