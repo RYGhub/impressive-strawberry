@@ -3,7 +3,7 @@ import pkg_resources
 import uvicorn
 import os
 
-from impressive_strawberry.web.routes import router
+from impressive_strawberry.web.routes import app_router
 from impressive_strawberry.database.tables import Base
 from impressive_strawberry.database.engine import engine
 from impressive_strawberry.database.deps import dep_session
@@ -16,7 +16,7 @@ app = fastapi.FastAPI(
     description="""""",
     version=pkg_resources.get_distribution("impressive_strawberry").version,
 )
-app.include_router(router)
+app.include_router(app_router)
 
 Base.metadata.create_all(bind=engine)
 
