@@ -1,7 +1,7 @@
 from logging.config import fileConfig
 from os import environ
-import dotenv
 
+import dotenv
 from alembic import context
 
 from impressive_strawberry.database.engine import engine
@@ -12,7 +12,7 @@ dotenv.load_dotenv(".env.local")
 
 config = context.config
 fileConfig(config.config_file_name)
-target_metadata = Base
+target_metadata = Base.metadata
 
 
 def run_migrations_offline():

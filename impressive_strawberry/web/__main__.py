@@ -1,11 +1,11 @@
 import os
-import uvicorn
+
 import dotenv
+
+dotenv.load_dotenv(".env", override=True)
+dotenv.load_dotenv(".env.local", override=True)
+
+import uvicorn
 from impressive_strawberry.web.app import app
-
-
-dotenv.load_dotenv(".env")
-dotenv.load_dotenv(".env.local")
-
 
 uvicorn.run(app, port=os.environ["IS_WEB_PORT"])
