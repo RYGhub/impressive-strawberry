@@ -2,13 +2,11 @@
 This module contains some useful shortcuts for common database interactions.
 """
 
-# TODO: It would be very useful to improve on this
+# TODO: improve this
 
 import typing as t
 
-import fastapi
 import pydantic
-import sqlalchemy.exc
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import select
 
@@ -42,14 +40,9 @@ def quick_retrieve(session: Session, table: t.Type[DatabaseObject], **filters) -
     :return: The retrieved object.
     """
 
-    try:
-        return session.execute(
-            select(table).filter_by(**filters)
-        ).scalar()
-    except sqlalchemy.exc.NoResultFound:
-        raise fastapi.HTTPException(404, "Object not found.")
-    except sqlalchemy.exc.MultipleResultsFound:
-        raise fastapi.HTTPException(500, "Multiple objects found.")
+    return session.execute(
+        select(table).filter_by(**filters)
+    ).scalar()
 
 
 def quick_update(session: Session, obj: DatabaseObject, data: pydantic.BaseModel) -> DatabaseObject:
