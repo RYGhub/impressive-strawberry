@@ -1,6 +1,7 @@
+from uuid import UUID
+
 import fastapi.routing
 from sqlalchemy.orm import Session
-from uuid import UUID
 
 from impressive_strawberry.database import tables
 from impressive_strawberry.web import crud
@@ -29,17 +30,17 @@ async def groups_this_retrieve(
 
 
 @router.get(
-    "/{id_}",
+    "/{group_id}",
     summary="Get a specific group that exists within your application.",
     response_model=models.full.GroupFull
 )
 async def group_retrive(
         *,
-        id_: UUID,
+        group_id: UUID,
         application: tables.Application = fastapi.Depends(deps.dep_application),
         session: Session = fastapi.Depends(deps.dep_session),
 ):
-    return crud.quick_retrieve(session, tables.Group, application_id=application.id, id=id_)
+    return crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
 
 
 @router.post(
@@ -57,34 +58,33 @@ async def group_create(
 
 
 @router.put(
-    "/{_id}",
+    "/{group_id}",
     summary="Update a group within the application you're authenticating as.",
     response_model=models.full.GroupFull
 )
 async def group_update(
         *,
-        id_: UUID,
+        group_id: UUID,
         data: models.edit.GroupEdit,
         session: Session = fastapi.Depends(deps.dep_session),
         application: tables.Application = fastapi.Depends(deps.dep_application)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=id_)
+    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
     return crud.quick_update(session, group, data)
 
 
 @router.delete(
-    "/{id_}",
+    "/{group_id}",
     summary="Delete a group within the application you're authenticating as.",
     status_code=204
 )
 async def group_delete(
         *,
-        id_: UUID,
+        group_id: UUID,
         session: Session = fastapi.Depends(deps.dep_session),
         application: tables.Application = fastapi.Depends(deps.dep_application)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=id_)
+    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
     session.delete(group)
     session.commit()
     return responses.raw.NO_CONTENT
-
