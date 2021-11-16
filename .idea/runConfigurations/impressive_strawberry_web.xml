@@ -5,10 +5,8 @@
     <option name="PARENT_ENVS" value="true" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
-      <env name="IS_DB_URI" value="postgresql://postgres:password@localhost:5432/strawberry-dev" />
-      <env name="IS_WEB_PORT" value="5000" />
     </envs>
-    <option name="SDK_HOME" value="C:\Users\loren\AppData\Local\pypoetry\Cache\virtualenvs\impressive-strawberry-MX2onQsD-py3.10\Scripts\python.exe" />
+    <option name="SDK_HOME" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
