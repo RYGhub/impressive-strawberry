@@ -36,12 +36,14 @@ class GroupRead(edit.GroupEdit):
     """
 
     id: UUID
+    application_id: UUID
 
     class Config(edit.GroupEdit.Config):
         schema_extra = {
             "example": {
                 **edit.GroupEdit.Config.schema_extra["example"],
                 "id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
+                "application_id": "971851d4-b41f-46e1-a884-5b5e84a276f8",
             },
         }
 
