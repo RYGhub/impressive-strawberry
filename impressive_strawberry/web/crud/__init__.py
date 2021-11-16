@@ -7,8 +7,11 @@ This module contains some useful shortcuts for common database interactions.
 import typing as t
 
 import pydantic
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import select
+
+import impressive_strawberry.web.errors as errors
 
 DatabaseObject = t.TypeVar("DatabaseObject")
 PydanticObject = t.TypeVar("PydanticObject")
@@ -39,10 +42,12 @@ def quick_retrieve(session: Session, table: t.Type[DatabaseObject], **filters) -
     :raise fastapi.HTTPException: Returns a ``404 Not Found`` status if no object is found, and a ``500 Internal Server Error`` status if multiple objects are found.
     :return: The retrieved object.
     """
-
-    return session.execute(
+    result = session.execute(
         select(table).filter_by(**filters)
     ).scalar()
+    if not result:
+        raise errors.ResourceNotFound()
+    return result
 
 
 def quick_update(session: Session, obj: DatabaseObject, data: pydantic.BaseModel) -> DatabaseObject:
