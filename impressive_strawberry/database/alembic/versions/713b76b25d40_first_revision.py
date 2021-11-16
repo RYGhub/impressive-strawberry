@@ -1,9 +1,10 @@
 """First revision
 
+This revision creates all the initial tables on the database.
+
 Revision ID: 713b76b25d40
 Revises: 
 Create Date: 2021-11-12 05:12:50.740928
-
 """
 import sqlalchemy as sa
 import sqlalchemy.exc
