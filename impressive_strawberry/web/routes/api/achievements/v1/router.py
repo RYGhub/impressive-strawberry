@@ -15,3 +15,18 @@ router = fastapi.routing.APIRouter(
         "Achievements v1",
     ],
 )
+
+
+@router.get(
+    "/",
+    summary="Get the achievements of a certain group within the application you're authenticating as.",
+    response_model=list[models.read.AchievementRead]
+)
+async def achievements_this_retrieve(
+        *,
+        group_id: UUID,
+        application: tables.Application = fastapi.Depends(deps.dep_application),
+        session: Session = fastapi.Depends(deps.dep_session)
+):
+    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
+    return group.achievements
