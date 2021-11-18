@@ -56,11 +56,12 @@ class AchievementEdit(base.StrawberryORMModel):
 
     name: str
     description: str
+    # Fixme: alloy is recognized as integer by pydantic ("BRONZE" raises an error). Either the example string is wrong
+    #  or there's something that needs to be fixed here
     alloy: tables.Alloy
     secret: bool
     icon: t.Optional[str]
     repeatable: bool
-    group_id: UUID
 
     class Config(base.StrawberryORMModel.Config):
         schema_extra = {
@@ -71,7 +72,6 @@ class AchievementEdit(base.StrawberryORMModel):
                 "secret": False,
                 "icon": None,
                 "repeatable": False,
-                "group_id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
             },
         }
 
