@@ -19,10 +19,10 @@ router = fastapi.routing.APIRouter(
 
 @router.get(
     "/",
-    summary="Get the groups of the application you're autenticating as.",
+    summary="Get the groups of the application you're authenticating as.",
     response_model=list[models.read.GroupRead],
 )
-async def groups_this_retrieve(
+async def group_list(
         *,
         application: tables.Application = fastapi.Depends(deps.dep_application),
 ):
@@ -34,7 +34,7 @@ async def groups_this_retrieve(
     summary="Get a specific group that exists within your application.",
     response_model=models.full.GroupFull
 )
-async def group_retrive(
+async def group_retrieve(
         *,
         group_id: UUID,
         application: tables.Application = fastapi.Depends(deps.dep_application),
@@ -69,7 +69,6 @@ async def group_update(
         session: Session = fastapi.Depends(deps.dep_session),
         application: tables.Application = fastapi.Depends(deps.dep_application)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
     return crud.quick_update(session, group, data)
 
 
