@@ -69,7 +69,7 @@ async def achievement_create(
 
 @router.put(
     "/{achievement_id}",
-    summary = "Update an achievement belonging to a certain group within the application you're authenticating as.",
+    summary="Update an achievement belonging to a certain group within the application you're authenticating as.",
     response_model=models.full.AchievementFull
 )
 async def achievement_update(
@@ -83,3 +83,22 @@ async def achievement_update(
     group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
     achievement = crud.quick_retrieve(session, tables.Achievement, group_id=group.id, id=achievement_id)
     return crud.quick_update(session, achievement, data)
+
+
+@router.delete(
+    "/{achievement_id}",
+    summary="Delete an achievement belonging to a certain group within the application you're authenticating as",
+    status_code=204
+)
+async def achievement_delete(
+        *,
+        group_id: UUID,
+        achievement_id: UUID,
+        application: tables.Application = fastapi.Depends(deps.dep_application),
+        session: Session = fastapi.Depends(deps.dep_session)
+):
+    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
+    achievement = crud.quick_retrieve(session, tables.Achievement, group_id=group.id, id=achievement_id)
+    session.delete(achievement)
+    session.commit()
+    return responses.raw.NO_CONTENT
