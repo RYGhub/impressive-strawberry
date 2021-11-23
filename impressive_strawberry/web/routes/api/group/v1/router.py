@@ -1,5 +1,3 @@
-from uuid import UUID
-
 import fastapi.routing
 from sqlalchemy.orm import Session
 
@@ -36,11 +34,9 @@ async def group_list(
 )
 async def group_retrieve(
         *,
-        group_id: UUID,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
-        session: Session = fastapi.Depends(deps.dep_session),
+        group: tables.Group = fastapi.Depends(deps.dep_group),
 ):
-    return crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
+    return group
 
 
 @router.post(
@@ -64,10 +60,9 @@ async def group_create(
 )
 async def group_update(
         *,
-        group_id: UUID,
+        group: tables.Group = fastapi.Depends(deps.dep_group),
         data: models.edit.GroupEdit,
         session: Session = fastapi.Depends(deps.dep_session),
-        application: tables.Application = fastapi.Depends(deps.dep_application)
 ):
     return crud.quick_update(session, group, data)
 
@@ -79,11 +74,9 @@ async def group_update(
 )
 async def group_delete(
         *,
-        group_id: UUID,
+        group: tables.Group = fastapi.Depends(deps.dep_group),
         session: Session = fastapi.Depends(deps.dep_session),
-        application: tables.Application = fastapi.Depends(deps.dep_application)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
     session.delete(group)
     session.commit()
     return responses.raw.NO_CONTENT
