@@ -90,6 +90,10 @@ class Achievement(Base):
     """
 
     __tablename__ = "achievements"
+    __table_args__ = (
+        # To avoid an application having the same server over and over, uniqueness between the crystal and the application_id is needed
+        UniqueConstraint('group_id', 'crystal'),
+    )
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
@@ -99,6 +103,11 @@ class Achievement(Base):
     icon = Column(String)
     repeatable = Column(Boolean, nullable=False, default=False)
     group_id = Column(UUID(as_uuid=True), ForeignKey("groups.id"), nullable=False)
+
+    crystal = Column(String, nullable=False)
+    """
+    :class:`Group`\\ s can identify :class:`.Achievements`\\ s through a custom identifier, the :attr:`.crystal`, which is specified on creation.
+    """
 
     group = relationship("Group", back_populates="achievements")
     unlocks = relationship("Unlock", back_populates="achievement")
