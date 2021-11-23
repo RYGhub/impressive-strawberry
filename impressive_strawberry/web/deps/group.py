@@ -11,4 +11,4 @@ def dep_group(
         application: tables.Application = fastapi.Depends(dep_application),
         group_crystal: str = fastapi.Path(...)
 ):
-    return crud.quick_retrieve(session, tables.Group, application_id=application.id, crystal=group_crystal)
+    return crud.quick_retrieve(session, tables.Group, application=application, crystal=group_crystal)
