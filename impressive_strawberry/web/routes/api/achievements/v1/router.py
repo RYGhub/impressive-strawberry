@@ -28,7 +28,7 @@ async def achievements_this_retrieve(
         application: tables.Application = fastapi.Depends(deps.dep_application),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
+    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
     return group.achievements
 
 
@@ -44,9 +44,9 @@ async def achievement_retrieve(
         application: tables.Application = fastapi.Depends(deps.dep_application),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
+    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
 
-    return crud.quick_retrieve(session, tables.Achievement, group_id=group.id, id=achievement_id)
+    return crud.quick_retrieve(session, tables.Achievement, group=group, id=achievement_id)
 
 
 @router.post(
@@ -61,10 +61,10 @@ async def achievement_create(
         application: tables.Application = fastapi.Depends(deps.dep_application),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
+    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
     return crud.quick_create(session, tables.Achievement(name=data.name, description=data.description,
                                                          alloy=data.alloy, secret=data.secret, icon=data.icon,
-                                                         repeatable=data.repeatable, group_id=group.id))
+                                                         repeatable=data.repeatable, group=group))
 
 
 @router.put(
@@ -80,8 +80,8 @@ async def achievement_update(
         application: tables.Application = fastapi.Depends(deps.dep_application),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
-    achievement = crud.quick_retrieve(session, tables.Achievement, group_id=group.id, id=achievement_id)
+    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
+    achievement = crud.quick_retrieve(session, tables.Achievement, group=group, id=achievement_id)
     return crud.quick_update(session, achievement, data)
 
 
@@ -97,8 +97,8 @@ async def achievement_delete(
         application: tables.Application = fastapi.Depends(deps.dep_application),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application_id=application.id, id=group_id)
-    achievement = crud.quick_retrieve(session, tables.Achievement, group_id=group.id, id=achievement_id)
+    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
+    achievement = crud.quick_retrieve(session, tables.Achievement, group=group, id=achievement_id)
     session.delete(achievement)
     session.commit()
     return responses.raw.NO_CONTENT
