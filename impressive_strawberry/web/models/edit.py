@@ -60,7 +60,7 @@ class AchievementEdit(base.StrawberryORMModel):
     secret: bool
     icon: t.Optional[str]
     repeatable: bool
-    group_id: UUID
+    crystal: str
 
     class Config(base.StrawberryORMModel.Config):
         schema_extra = {
@@ -71,7 +71,7 @@ class AchievementEdit(base.StrawberryORMModel):
                 "secret": False,
                 "icon": None,
                 "repeatable": False,
-                "group_id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
+                "crystal": "my-first-achievement"
             },
         }
 
