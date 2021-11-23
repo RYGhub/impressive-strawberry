@@ -29,7 +29,7 @@ async def group_list(
 
 @router.get(
     "/{group_crystal}",
-    summary="Get a specific group that exists within your application.",
+    summary="Get a specific group that exists within the application you're authenticating as.",
     response_model=models.full.GroupFull
 )
 async def group_retrieve(
