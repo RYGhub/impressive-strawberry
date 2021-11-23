@@ -25,29 +25,18 @@ __all__ = (
 Base = sqlalchemy.orm.declarative_base()
 
 
-class Alloy(enum.IntEnum):
+class Alloy(str, enum.Enum):
     """
     An alloy represents the rarity of an :class:`.Achievement`.
-
-    :class:`int` values represent the rarity of the achievement; higher values represent rarer achievements.
-
-    The rarity of alloys can be compared as if they were integers:
-
-    >>> Alloy.BRONZE < Alloy.SILVER
-    True
-    >>> Alloy.SILVER < Alloy.GOLD
-    True
-    >>> Alloy.GOLD == Alloy.GOLD
-    True
     """
 
-    BRONZE = 100
+    BRONZE = "BRONZE"
     "A common :class:`.Achievement`."
 
-    SILVER = 250
+    SILVER = "SILVER"
     "An uncommon :class:`.Achievement`."
 
-    GOLD = 1000
+    GOLD = "GOLD"
     "A rare :class:`.Achievement`."
 
 
