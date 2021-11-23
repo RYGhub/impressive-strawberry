@@ -8,7 +8,7 @@ from impressive_strawberry.web import models
 from impressive_strawberry.web import responses
 
 router = fastapi.routing.APIRouter(
-    prefix="/api/application/v1/this/group/v1/{group_crystal}/achievement/v1",
+    prefix="/api/application/v1/this/group/v1/{group}/achievement/v1",
     tags=[
         "Achievements v1",
     ],
