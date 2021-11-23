@@ -50,9 +50,15 @@ async def achievement_create(
         session: Session = fastapi.Depends(deps.dep_session),
         group: tables.Group = fastapi.Depends(deps.dep_group),
 ):
-    return crud.quick_create(session, tables.Achievement(name=data.name, description=data.description,
-                                                         alloy=data.alloy, secret=data.secret, icon=data.icon,
-                                                         repeatable=data.repeatable, group=group))
+    return crud.quick_create(session, tables.Achievement(
+        name=data.name,
+        description=data.description,
+        alloy=data.alloy,
+        secret=data.secret,
+        icon=data.icon,
+        repeatable=data.repeatable,
+        group=group,
+    ))
 
 
 @router.put(
