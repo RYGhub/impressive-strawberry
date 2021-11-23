@@ -1,5 +1,3 @@
-from uuid import UUID
-
 import fastapi.routing
 from sqlalchemy.orm import Session
 
@@ -20,85 +18,67 @@ router = fastapi.routing.APIRouter(
 @router.get(
     "/",
     summary="Get the achievements of a certain group within the application you're authenticating as.",
-    response_model=list[models.read.AchievementRead]
+    response_model=list[models.read.AchievementRead],
 )
 async def achievements_list(
         *,
-        group_id: UUID,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
-        session: Session = fastapi.Depends(deps.dep_session)
+        group: tables.Group = fastapi.Depends(deps.dep_group),
 ):
-    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
     return group.achievements
 
 
 @router.get(
-    "/{achievement_id}",
+    "/{achievement_crystal}",
     summary="Get the details of an achievement belonging to a certain group within the application you're authenticating as.",
-    response_model=models.full.AchievementFull
+    response_model=models.full.AchievementFull,
 )
 async def achievement_retrieve(
         *,
-        group_id: UUID,
-        achievement_id: UUID,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
-        session: Session = fastapi.Depends(deps.dep_session)
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
 ):
-    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
-
-    return crud.quick_retrieve(session, tables.Achievement, group=group, id=achievement_id)
+    return achievement
 
 
 @router.post(
     "/",
     summary="Create a new achievement belonging to a certain group within the application you're authenticating as.",
-    response_model=models.full.AchievementFull
+    response_model=models.full.AchievementFull,
 )
 async def achievement_create(
         *,
-        group_id: UUID,
         data: models.edit.AchievementEdit,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
-        session: Session = fastapi.Depends(deps.dep_session)
+        session: Session = fastapi.Depends(deps.dep_session),
+        group: tables.Group = fastapi.Depends(deps.dep_group),
 ):
-    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
     return crud.quick_create(session, tables.Achievement(name=data.name, description=data.description,
                                                          alloy=data.alloy, secret=data.secret, icon=data.icon,
                                                          repeatable=data.repeatable, group=group))
 
 
 @router.put(
-    "/{achievement_id}",
+    "/{achievement_crystal}",
     summary="Update an achievement belonging to a certain group within the application you're authenticating as.",
     response_model=models.full.AchievementFull
 )
 async def achievement_update(
         *,
-        group_id: UUID,
-        achievement_id: UUID,
         data: models.edit.AchievementEdit,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
-    achievement = crud.quick_retrieve(session, tables.Achievement, group=group, id=achievement_id)
     return crud.quick_update(session, achievement, data)
 
 
 @router.delete(
-    "/{achievement_id}",
-    summary="Delete an achievement belonging to a certain group within the application you're authenticating as",
-    status_code=204
+    "/{achievement_crystal}",
+    summary="Delete an achievement belonging to a certain group within the application you're authenticating as.",
+    status_code=204,
 )
 async def achievement_delete(
         *,
-        group_id: UUID,
-        achievement_id: UUID,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    group = crud.quick_retrieve(session, tables.Group, application=application, id=group_id)
-    achievement = crud.quick_retrieve(session, tables.Achievement, group=group, id=achievement_id)
     session.delete(achievement)
     session.commit()
     return responses.raw.NO_CONTENT
