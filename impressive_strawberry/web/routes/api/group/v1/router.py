@@ -28,7 +28,7 @@ async def group_list(
 
 
 @router.get(
-    "/{group_id}",
+    "/{group_crystal}",
     summary="Get a specific group that exists within your application.",
     response_model=models.full.GroupFull
 )
@@ -54,7 +54,7 @@ async def group_create(
 
 
 @router.put(
-    "/{group_id}",
+    "/{group_crystal}",
     summary="Update a group within the application you're authenticating as.",
     response_model=models.full.GroupFull
 )
@@ -68,7 +68,7 @@ async def group_update(
 
 
 @router.delete(
-    "/{group_id}",
+    "/{group_crystal}",
     summary="Delete a group within the application you're authenticating as.",
     status_code=204
 )
