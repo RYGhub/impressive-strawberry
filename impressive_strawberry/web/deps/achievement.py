@@ -5,6 +5,10 @@ from impressive_strawberry.web import crud
 from impressive_strawberry.web.deps.database import dep_session
 from impressive_strawberry.web.deps.group import dep_group
 
+__all__ = (
+    "dep_achievement",
+)
+
 
 def dep_achievement(
         session: engine.Session = fastapi.Depends(dep_session),
