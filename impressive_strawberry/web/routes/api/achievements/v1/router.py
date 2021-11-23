@@ -28,7 +28,7 @@ async def achievements_list(
 
 
 @router.get(
-    "/{achievement_crystal}",
+    "/{achievement}",
     summary="Get the details of an achievement belonging to a certain group within the application you're authenticating as.",
     response_model=models.full.AchievementFull,
 )
@@ -56,7 +56,7 @@ async def achievement_create(
 
 
 @router.put(
-    "/{achievement_crystal}",
+    "/{achievement}",
     summary="Update an achievement belonging to a certain group within the application you're authenticating as.",
     response_model=models.full.AchievementFull
 )
@@ -70,7 +70,7 @@ async def achievement_update(
 
 
 @router.delete(
-    "/{achievement_crystal}",
+    "/{achievement}",
     summary="Delete an achievement belonging to a certain group within the application you're authenticating as.",
     status_code=204,
 )

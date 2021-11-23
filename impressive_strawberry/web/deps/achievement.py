@@ -1,3 +1,5 @@
+from uuid import UUID
+
 import fastapi
 
 from impressive_strawberry.database import tables, engine
@@ -13,6 +15,11 @@ __all__ = (
 def dep_achievement(
         session: engine.Session = fastapi.Depends(dep_session),
         group: tables.Group = fastapi.Depends(dep_group),
-        achievement_crystal: str = fastapi.Path(...)
+        achievement: str = fastapi.Path(...)
 ):
-    return crud.quick_retrieve(session, tables.Group, group=group, crystal=achievement_crystal)
+    try:
+        uuid = UUID(achievement)
+    except ValueError:
+        return crud.quick_retrieve(session, tables.Achievement, group=group, crystal=achievement)
+    else:
+        return crud.quick_retrieve(session, tables.Achievement, group=group, id=uuid)
