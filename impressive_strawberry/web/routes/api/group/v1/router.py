@@ -60,9 +60,9 @@ async def group_create(
 )
 async def group_update(
         *,
-        group: tables.Group = fastapi.Depends(deps.dep_group),
         data: models.edit.GroupEdit,
         session: Session = fastapi.Depends(deps.dep_session),
+        group: tables.Group = fastapi.Depends(deps.dep_group),
 ):
     return crud.quick_update(session, group, data)
 
@@ -74,8 +74,8 @@ async def group_update(
 )
 async def group_delete(
         *,
-        group: tables.Group = fastapi.Depends(deps.dep_group),
         session: Session = fastapi.Depends(deps.dep_session),
+        group: tables.Group = fastapi.Depends(deps.dep_group),
 ):
     session.delete(group)
     session.commit()
