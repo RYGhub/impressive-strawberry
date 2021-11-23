@@ -22,7 +22,7 @@ router = fastapi.routing.APIRouter(
     summary="Get the achievements of a certain group within the application you're authenticating as.",
     response_model=list[models.read.AchievementRead]
 )
-async def achievements_this_retrieve(
+async def achievements_list(
         *,
         group_id: UUID,
         application: tables.Application = fastapi.Depends(deps.dep_application),
