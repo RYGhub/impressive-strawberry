@@ -13,3 +13,55 @@ router = fastapi.routing.APIRouter(
         "User v1",
     ],
 )
+
+
+@router.get(
+    "/",
+    summary="Get the users of the application you're authenticating as.",
+    response_model=list[models.read.UserRead]
+)
+async def user_list(
+        *,
+        application: tables.Application = fastapi.Depends(deps.dep_application)
+):
+    return application.users
+
+
+@router.get(
+    "/",
+    summary="Get a specific user that exists within the application you're authenticating as.",
+    response_model=models.full.UserFull
+)
+async def user_retrieve(
+        *,
+        user: tables.User = fastapi.Depends(deps.dep_user)
+):
+    return user
+
+
+@router.post(
+    "/{user}",
+    summary="Add an user to the application you're authenticating as.",
+    response_model=models.full.UserFull
+)
+async def user_create(
+        *,
+        data: models.edit.UserEdit,
+        session: Session = fastapi.Depends(deps.dep_session),
+        application: tables.Application = fastapi.Depends(deps.dep_application)
+):
+    return crud.quick_create(session, tables.User(application_id=application.id, crystal=data.crystal))
+
+
+@router.put(
+    "/{user}",
+    summary="Update a user within the application you're authenticating as.",
+    response_model=models.full.UserFull
+)
+async def user_update(
+        *,
+        data: models.edit.UserEdit,
+        session: Session = fastapi.Depends(deps.dep_session),
+        user: tables.User = fastapi.Depends(deps.dep_user)
+):
+    return crud.quick_update(session, user, data)
