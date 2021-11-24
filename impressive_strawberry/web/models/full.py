@@ -96,7 +96,7 @@ class UserFull(read.UserRead):
     **Full** model (with expanded relationships) for :class:`.database.tables.User`.
     """
 
-    application: t.List[read.ApplicationRead]
+    application: read.ApplicationRead
     unlocks: t.List[read.AchievementRead]
 
     class Config(read.UserRead.Config):

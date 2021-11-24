@@ -145,7 +145,7 @@ class User(Base):
         UniqueConstraint('application_id', 'crystal'),
     )
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     application_id = Column(UUID(as_uuid=True), ForeignKey("applications.id"), nullable=False)
 
     crystal = Column(String, nullable=False)

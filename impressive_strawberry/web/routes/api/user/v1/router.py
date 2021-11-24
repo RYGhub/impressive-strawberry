@@ -28,7 +28,7 @@ async def user_list(
 
 
 @router.get(
-    "/",
+    "/{user}",
     summary="Get a specific user that exists within the application you're authenticating as.",
     response_model=models.full.UserFull
 )
@@ -65,3 +65,19 @@ async def user_update(
         user: tables.User = fastapi.Depends(deps.dep_user)
 ):
     return crud.quick_update(session, user, data)
+
+
+@router.delete(
+    "/{user}",
+    summary="Remove a user within the application you're authenticating as.",
+    status_code=204
+)
+async def user_delete(
+        *,
+        session: Session = fastapi.Depends(deps.dep_session),
+        user: tables.User = fastapi.Depends(deps.dep_user)
+):
+    session.delete(user)
+    session.commit()
+    return responses.raw.NO_CONTENT
+
