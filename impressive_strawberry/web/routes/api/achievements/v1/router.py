@@ -58,6 +58,7 @@ async def achievement_create(
         icon=data.icon,
         repeatable=data.repeatable,
         group=group,
+        crystal=data.crystal
     ))
 
 

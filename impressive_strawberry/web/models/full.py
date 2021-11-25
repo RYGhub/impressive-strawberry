@@ -97,7 +97,7 @@ class UserFull(read.UserRead):
     """
 
     application: read.ApplicationRead
-    unlocks: t.List[read.AchievementRead]
+    unlocks: t.List[UnlockFull]
 
     class Config(read.UserRead.Config):
         schema_extra = {
