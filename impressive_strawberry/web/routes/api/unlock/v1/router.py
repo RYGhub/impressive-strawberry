@@ -5,6 +5,7 @@ from impressive_strawberry.database import tables
 from impressive_strawberry.web import crud
 from impressive_strawberry.web import deps
 from impressive_strawberry.web import models
+from impressive_strawberry.web import responses
 from impressive_strawberry.web.errors import DuplicatingUnrepeatableUnlock
 
 router = fastapi.routing.APIRouter(
@@ -21,7 +22,7 @@ router = fastapi.routing.APIRouter(
             "both belonging to the same application you're authenticating as.",
     response_model=models.full.UserFull,
 )
-def unlock_create(
+async def unlock_create(
         *,
         session: Session = fastapi.Depends(deps.dep_session),
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_basic),
@@ -31,3 +32,18 @@ def unlock_create(
         raise DuplicatingUnrepeatableUnlock
     crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
     return user
+
+
+@router.delete(
+    "/{unlock}",
+    summary="Removes an unlock of an user belonging to the application you're authenticating as.",
+    status_code=204
+)
+async def unlock_delete(
+        *,
+        unlock: tables.Unlock = fastapi.Depends(deps.dep_unlock),
+        session: Session = fastapi.Depends(deps.dep_session)
+):
+    session.delete(unlock)
+    session.commit()
+    return responses.raw.NO_CONTENT

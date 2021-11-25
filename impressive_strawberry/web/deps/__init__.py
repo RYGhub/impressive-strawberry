@@ -7,11 +7,13 @@ from .application import *
 from .database import *
 from .group import *
 from .user import *
+from .unlock import *
 
 __all__ = (
     "achievement",
     "application",
     "database",
     "group",
-    "user"
+    "user",
+    "unlock"
 )
