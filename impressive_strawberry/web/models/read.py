@@ -90,11 +90,13 @@ class UserRead(edit.UserEdit):
     """
 
     id: UUID
+    application_id: UUID
 
     class Config(edit.UserEdit.Config):
         schema_extra = {
             "example": {
                 **edit.UserEdit.Config.schema_extra["example"],
+                "application_id": "971851d4-b41f-46e1-a884-5b5e84a276f8",
                 "id": "ee4855c6-5690-4a88-9999-950b3ae92473",
             },
         }

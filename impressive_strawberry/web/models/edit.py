@@ -98,13 +98,11 @@ class UserEdit(base.StrawberryORMModel):
     **Edit** model for :class:`.database.tables.User`.
     """
 
-    application_id: UUID
     crystal: str
 
     class Config(base.StrawberryORMModel.Config):
         schema_extra = {
             "example": {
-                "application_id": "971851d4-b41f-46e1-a884-5b5e84a276f8",
                 "crystal": "77703771181817856",
             },
         }
