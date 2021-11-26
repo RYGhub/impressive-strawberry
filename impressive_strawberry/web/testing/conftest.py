@@ -1,8 +1,15 @@
+import dotenv
 import pytest
 from httpx import AsyncClient
 
 from impressive_strawberry.database.engine import Session
 from impressive_strawberry.web.app import app
+
+
+@pytest.fixture(scope="session", autouse=True)
+def load_dotenv_testing():
+    dotenv.load_dotenv(".env")
+    dotenv.load_dotenv(".env.testing")
 
 
 @pytest.fixture(scope="session")
