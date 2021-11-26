@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="pytest for impressive_strawberry" type="tests" factoryName="py.test" nameIsGenerated="true">
+  <configuration default="false" name="pytest in impressive-strawberry" type="tests" factoryName="py.test" nameIsGenerated="true">
     <module name="strawberry" />
     <option name="INTERPRETER_OPTIONS" value="-X dev" />
     <option name="PARENT_ENVS" value="true" />
@@ -12,8 +12,8 @@
     <option name="_new_keywords" value="&quot;&quot;" />
     <option name="_new_parameters" value="&quot;&quot;" />
     <option name="_new_additionalArguments" value="&quot;&quot;" />
-    <option name="_new_target" value="&quot;impressive_strawberry&quot;" />
-    <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+    <option name="_new_target" value="&quot;$PROJECT_DIR$&quot;" />
+    <option name="_new_targetType" value="&quot;PATH&quot;" />
     <method v="2" />
   </configuration>
 </component>
