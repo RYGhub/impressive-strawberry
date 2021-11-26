@@ -15,7 +15,7 @@ __all__ = (
 def dep_achievement(
         session: engine.Session = fastapi.Depends(dep_session),
         group: tables.Group = fastapi.Depends(dep_group),
-        achievement: str = fastapi.Path(...)
+        achievement: str = fastapi.Query(...)
 ):
     try:
         uuid = UUID(achievement)

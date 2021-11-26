@@ -15,7 +15,7 @@ __all__ = (
 def dep_group(
         session: engine.Session = fastapi.Depends(dep_session),
         application: tables.Application = fastapi.Depends(dep_application),
-        group: str = fastapi.Path(...)
+        group: str = fastapi.Query(...)
 ):
     try:
         uuid = UUID(group)

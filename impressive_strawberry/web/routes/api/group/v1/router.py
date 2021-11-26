@@ -8,7 +8,7 @@ from impressive_strawberry.web import models
 from impressive_strawberry.web import responses
 
 router = fastapi.routing.APIRouter(
-    prefix="/api/application/v1/this/group/v1",
+    prefix="/api/group/v1",
     tags=[
         "Group v1",
     ],
