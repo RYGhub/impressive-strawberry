@@ -18,7 +18,7 @@ async def client() -> AsyncClient:
         yield c
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def session() -> Session:
     with Session() as s:
         yield s
