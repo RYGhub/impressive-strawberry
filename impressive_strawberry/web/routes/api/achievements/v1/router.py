@@ -43,6 +43,7 @@ async def achievement_retrieve(
     "/",
     summary="Create a new achievement belonging to a certain group within the application you're authenticating as.",
     response_model=models.full.AchievementFull,
+    status_code=201,
 )
 async def achievement_create(
         *,

@@ -42,7 +42,8 @@ async def group_retrieve(
 @router.post(
     "/",
     summary="Add a group to the application you're authenticating as.",
-    response_model=models.full.GroupFull
+    response_model=models.full.GroupFull,
+    status_code=201,
 )
 async def group_create(
         *,

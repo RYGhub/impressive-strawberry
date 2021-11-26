@@ -19,6 +19,7 @@ router = fastapi.routing.APIRouter(
     "/",
     summary="Create a new application, and get a token.",
     response_model=models.full.ApplicationFull,
+    status_code=201,
 )
 async def application_create(
         *,
