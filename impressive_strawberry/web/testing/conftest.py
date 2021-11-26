@@ -12,7 +12,7 @@ def load_dotenv_testing():
     dotenv.load_dotenv(".env.testing")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 async def client() -> AsyncClient:
     async with AsyncClient(app=app, base_url="http://test") as c:
         yield c
