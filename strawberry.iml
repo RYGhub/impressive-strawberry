@@ -4,9 +4,9 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/docs/source" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/impressive_strawberry" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/docs/source/_static" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/impressive_strawberry/web" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/impressive_strawberry/web/testing" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/docs/build" />
       <excludeFolder url="file://$MODULE_DIR$/docs/source/_extra" />
     </content>
