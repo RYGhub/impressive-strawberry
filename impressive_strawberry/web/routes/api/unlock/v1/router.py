@@ -20,6 +20,7 @@ router = fastapi.routing.APIRouter(
     "/",
     summary="Adds a certain achievement of a group to a user, both belonging to the same application you're authenticating as.",
     response_model=models.full.UserFull,
+    status_code=201,
 )
 async def unlock_create(
         *,
