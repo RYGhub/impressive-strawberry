@@ -20,5 +20,5 @@ def dep_unlock(
 ):
     result = crud.quick_retrieve(session, tables.Unlock, id=unlock)
     if result.user.application != application:
-        raise ResourceNotFound
+        raise ResourceNotFound()
     return result
