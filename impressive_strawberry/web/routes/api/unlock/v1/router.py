@@ -9,7 +9,7 @@ from impressive_strawberry.web import responses
 from impressive_strawberry.web.errors import DuplicatingUnrepeatableUnlock
 
 router = fastapi.routing.APIRouter(
-    prefix="/api/application/v1/this/user/v1/{user}/achievement/v1/{achievement}/unlock/v1",
+    prefix="/api/application/v1/this/group/v1/{group}/achievement/v1/{achievement}/unlock/v1",
     tags=[
         "Unlock v1",
     ],
