@@ -13,7 +13,7 @@ __all__ = (
     "WrongAuthHeader",
     "ResourceNotFound",
     "MultipleResultsFound",
-    "DuplicatingUnrepeatableUnlock"
+    "DuplicatingUnrepeatableUnlock",
 )
 
 
