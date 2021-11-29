@@ -15,5 +15,5 @@ __all__ = (
     "database",
     "group",
     "user",
-    "unlock"
+    "unlock",
 )
