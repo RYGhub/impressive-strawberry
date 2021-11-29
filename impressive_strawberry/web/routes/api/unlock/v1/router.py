@@ -18,8 +18,7 @@ router = fastapi.routing.APIRouter(
 
 @router.post(
     "/",
-    summary="Adds a certain achievement of a group to a user, " +
-            "both belonging to the same application you're authenticating as.",
+    summary="Adds a certain achievement of a group to a user, both belonging to the same application you're authenticating as.",
     response_model=models.full.UserFull,
 )
 async def unlock_create(
@@ -37,7 +36,7 @@ async def unlock_create(
 @router.delete(
     "/{unlock}",
     summary="Removes an unlock of an user belonging to the application you're authenticating as.",
-    status_code=204
+    status_code=204,
 )
 async def unlock_delete(
         *,
