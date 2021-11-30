@@ -13,6 +13,7 @@ __all__ = (
     "WrongAuthHeader",
     "ResourceNotFound",
     "MultipleResultsFound",
+    "DuplicatingUnrepeatableUnlock",
 )
 
 
@@ -62,3 +63,9 @@ class MultipleResultsFound(StrawberryException):
     STATUS_CODE = 500
     ERROR_CODE = "MULTIPLE_FOUND"
     REASON = "Multiple resources were found with the requested identifier. This is probably a problem in the Impressive Strawberry database. If you are the system admininistrator, ensure you have run all the available migrations through Alembic."
+
+
+class DuplicatingUnrepeatableUnlock(StrawberryException):
+    STATUS_CODE = 406
+    ERROR_CODE = "DUPLICATING_UNLOCK"
+    REASON = "The achievement has already been unlocked by the user and its not repeatable."

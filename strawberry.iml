@@ -6,7 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/docs/source" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/docs/source/_static" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/impressive_strawberry/web/testing" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/impressive_strawberry" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/docs/build" />
       <excludeFolder url="file://$MODULE_DIR$/docs/source/_extra" />
