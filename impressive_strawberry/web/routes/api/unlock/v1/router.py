@@ -1,12 +1,12 @@
 import fastapi.routing
-from sqlalchemy.orm import Session
-
 from impressive_strawberry.database import tables
 from impressive_strawberry.web import crud
 from impressive_strawberry.web import deps
 from impressive_strawberry.web import models
 from impressive_strawberry.web import responses
 from impressive_strawberry.web.errors import DuplicatingUnrepeatableUnlock
+from impressive_strawberry.webhooks import notify_unlock
+from sqlalchemy.orm import Session
 
 router = fastapi.routing.APIRouter(
     prefix="/api/application/v1/this/group/v1/{group}/achievement/v1/{achievement}/unlock/v1",
@@ -25,12 +25,14 @@ router = fastapi.routing.APIRouter(
 async def unlock_create(
         *,
         session: Session = fastapi.Depends(deps.dep_session),
+        application: tables.Application = fastapi.Depends(deps.dep_application),
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_basic),
         user: tables.User = fastapi.Depends(deps.dep_user)
 ):
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock
-    crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
+    unlock = crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
+    await notify_unlock(application=application, unlock=unlock)
     return user
 
 

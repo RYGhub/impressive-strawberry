@@ -27,6 +27,8 @@ class StrawberryModel(pydantic.BaseModel, metaclass=abc.ABCMeta):
                 lambda obj: obj.timestamp(),
             impressive_strawberry.database.tables.Alloy:
                 lambda obj: obj.value,
+            impressive_strawberry.database.tables.WebhookType:
+                lambda obj: obj.value,
         }
 
 

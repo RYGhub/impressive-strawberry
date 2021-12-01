@@ -15,6 +15,7 @@ from sqlalchemy.orm import relationship
 __all__ = (
     "Base",
     "Alloy",
+    "WebhookType",
     "Application",
     "Group",
     "Achievement",
@@ -40,6 +41,18 @@ class Alloy(str, enum.Enum):
     "A rare :class:`.Achievement`."
 
 
+class WebhookType(str, enum.Enum):
+    """
+    The type of the output format of webhooks.
+    """
+
+    STRAWBERRY = "STRAWBERRY"
+    "Strawberry will output data using its own JSON model."
+
+    DISCORD = "DISCORD"
+    "Strawberry will output data which can be fed directly into a Discord webhook."
+
+
 class Application(Base):
     """
     An :class:`.Application` represents an entity interacting with :mod:`impressive_strawberry`, such as a website or a bot.
@@ -51,7 +64,8 @@ class Application(Base):
     name = Column(String, nullable=False)
     description = Column(Text, nullable=False, default="")
     token = Column(String, nullable=False, default=secrets.token_urlsafe)
-    webhook = Column(String, nullable=False)
+    webhook_url = Column(String, nullable=False)
+    webhook_type = Column(Enum(WebhookType), nullable=False, server_default="STRAWBERRY")
 
     groups = relationship("Group", back_populates="application")
     users = relationship("User", back_populates="application")
