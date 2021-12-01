@@ -6,8 +6,8 @@ from .achievement import *
 from .application import *
 from .database import *
 from .group import *
-from .user import *
 from .unlock import *
+from .user import *
 
 __all__ = (
     "achievement",

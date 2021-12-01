@@ -4,8 +4,8 @@ import fastapi
 
 from impressive_strawberry.database import tables, engine
 from impressive_strawberry.web import crud
-from impressive_strawberry.web.deps.database import dep_session
 from impressive_strawberry.web.deps.application import dep_application
+from impressive_strawberry.web.deps.database import dep_session
 from impressive_strawberry.web.errors import ResourceNotFound
 
 __all__ = (
