@@ -22,14 +22,16 @@ class ApplicationEdit(base.StrawberryORMModel):
 
     name: str
     description: str
-    webhook: HttpUrl
+    webhook_url: HttpUrl
+    webhook_type: tables.WebhookType
 
     class Config(base.StrawberryORMModel.Config):
         schema_extra = {
             "example": {
                 "name": "Strawberry Bot",
                 "description": "A bot to integrate achievements in Discord servers.",
-                "webhook": "https://discord.com/api/webhooks/123123123123123123/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "webhook_url": "https://discord.com/api/webhooks/123123123123123123/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                "webhook_type": "DISCORD",
             },
         }
 
