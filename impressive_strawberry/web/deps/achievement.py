@@ -4,8 +4,8 @@ import fastapi
 
 from impressive_strawberry.database import tables, engine
 from impressive_strawberry.web import crud
-from impressive_strawberry.web.deps.database import dep_session
 from impressive_strawberry.web.deps.application import dep_application
+from impressive_strawberry.web.deps.database import dep_session
 from impressive_strawberry.web.deps.group import dep_group
 from impressive_strawberry.web.errors import ResourceNotFound
 
@@ -35,5 +35,5 @@ def dep_achievement_basic(
 ):
     result = crud.quick_retrieve(session, tables.Achievement, id=achievement)
     if result.group.application != application:
-        raise ResourceNotFound
+        raise ResourceNotFound()
     return result

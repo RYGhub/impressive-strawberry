@@ -19,7 +19,7 @@ router = fastapi.routing.APIRouter(
 @router.post(
     "/",
     summary="Adds a certain achievement of a group to a user, both belonging to the same application you're authenticating as.",
-    response_model=models.full.UserFull,
+    response_model=models.full.UnlockFull,
     status_code=201,
 )
 async def unlock_create(
@@ -30,10 +30,10 @@ async def unlock_create(
         user: tables.User = fastapi.Depends(deps.dep_user)
 ):
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
-        raise DuplicatingUnrepeatableUnlock
+        raise DuplicatingUnrepeatableUnlock()
     unlock = crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
     await notify_unlock(application=application, unlock=unlock)
-    return user
+    return unlock
 
 
 @router.delete(

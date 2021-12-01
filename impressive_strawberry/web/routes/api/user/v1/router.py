@@ -81,4 +81,3 @@ async def user_delete(
     session.delete(user)
     session.commit()
     return responses.raw.NO_CONTENT
-

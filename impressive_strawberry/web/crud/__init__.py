@@ -7,7 +7,6 @@ This module contains some useful shortcuts for common database interactions.
 import typing as t
 
 import pydantic
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import select
 
