@@ -1,3 +1,5 @@
+import secrets
+
 import fastapi.routing
 from sqlalchemy.orm import Session
 
@@ -68,3 +70,18 @@ async def application_this_delete(
     session.delete(application)
     session.commit()
     return responses.raw.NO_CONTENT
+
+
+@router.patch(
+    "/this/revoke",
+    summary="Revoke and regenerate the token for the application you're authenticating as.",
+    response_model=models.full.ApplicationFull,
+)
+async def application_this_revoke(
+        *,
+        application: tables.Application = fastapi.Depends(deps.dep_application),
+        session: Session = fastapi.Depends(deps.dep_session),
+):
+    application.token = secrets.token_urlsafe()
+    session.commit()
+    return application
