@@ -29,7 +29,7 @@ async def unlock_create(
         user: tables.User = fastapi.Depends(deps.dep_user)
 ):
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
-        raise DuplicatingUnrepeatableUnlock
+        raise DuplicatingUnrepeatableUnlock()
     return crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
 
 
