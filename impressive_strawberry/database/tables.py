@@ -70,6 +70,9 @@ class Application(Base):
     groups = relationship("Group", back_populates="application")
     users = relationship("User", back_populates="application")
 
+    def __repr__(self):
+        return f"<Application id={self.id}>"
+
 
 class Group(Base):
     """
@@ -94,6 +97,9 @@ class Group(Base):
 
     application = relationship("Application", back_populates="groups")
     achievements = relationship("Achievement", back_populates="group")
+
+    def __repr__(self):
+        return f"<Group id={self.id} crystal={self.crystal}>"
 
 
 class Achievement(Base):
@@ -131,6 +137,9 @@ class Achievement(Base):
     group = relationship("Group", back_populates="achievements")
     unlocks = relationship("Unlock", back_populates="achievement")
 
+    def __repr__(self):
+        return f"<Achievement id={self.id} crystal={self.crystal}>"
+
 
 class Unlock(Base):
     """
@@ -148,6 +157,9 @@ class Unlock(Base):
 
     achievement = relationship("Achievement", back_populates="unlocks")
     user = relationship("User", back_populates="unlocks")
+
+    def __repr__(self):
+        return f"<Unlock id={self.id}>"
 
 
 class User(Base):
@@ -174,3 +186,6 @@ class User(Base):
 
     application = relationship("Application", back_populates="users")
     unlocks = relationship("Unlock", back_populates="user")
+
+    def __repr__(self):
+        return f"<User id={self.id}>"
