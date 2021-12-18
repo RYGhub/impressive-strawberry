@@ -9,12 +9,6 @@ from impressive_strawberry.database import tables
 from impressive_strawberry.web.app import app
 
 
-@pytest.fixture(scope="function")
-async def client() -> httpx.AsyncClient:
-    async with httpx.AsyncClient(app=app, base_url="http://test", follow_redirects=True) as c:
-        yield c
-
-
 @pytest.fixture(scope="session")
 def db_schema() -> str:
     uid = uuid.uuid4()
@@ -30,6 +24,12 @@ def db_schema() -> str:
     yield schema
 
     engine.engine.execute(f"""DROP SCHEMA "{schema}" CASCADE;""")
+
+
+@pytest.fixture(scope="function")
+async def client(db_schema: str) -> httpx.AsyncClient:
+    async with httpx.AsyncClient(app=app, base_url="http://test", follow_redirects=True) as c:
+        yield c
 
 
 @pytest.fixture(scope="session")
