@@ -1,6 +1,5 @@
-import secrets
-
 import fastapi.routing
+import secrets
 from sqlalchemy.orm import Session
 
 from impressive_strawberry.database import tables
@@ -28,7 +27,8 @@ async def application_create(
         data: models.edit.ApplicationEdit,
         session: Session = fastapi.Depends(deps.dep_session)
 ):
-    return crud.quick_create(session, tables.Application(name=data.name, description=data.description, webhook=data.webhook))
+    return crud.quick_create(session,
+                             tables.Application(name=data.name, description=data.description, webhook_url=data.webhook_url, webhook_type=data.webhook_type))
 
 
 @router.get(
