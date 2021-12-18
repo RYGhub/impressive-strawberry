@@ -1,6 +1,6 @@
+import httpx
 import pytest
 import sqlalchemy.orm
-from httpx import AsyncClient
 
 from impressive_strawberry.database import engine
 from impressive_strawberry.database import tables
@@ -8,8 +8,8 @@ from impressive_strawberry.web.app import app
 
 
 @pytest.fixture(scope="function")
-async def client() -> AsyncClient:
-    async with AsyncClient(app=app, base_url="http://test", follow_redirects=True) as c:
+async def client() -> httpx.AsyncClient:
+    async with httpx.AsyncClient(app=app, base_url="http://test", follow_redirects=True) as c:
         yield c
 
 
