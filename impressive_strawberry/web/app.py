@@ -11,6 +11,7 @@ from impressive_strawberry.web.routes.api.application.v1.router import router as
 from impressive_strawberry.web.routes.api.group.v1.router import router as router_api_group_v1
 from impressive_strawberry.web.routes.api.unlock.v1.router import router as router_api_unlock_v1
 from impressive_strawberry.web.routes.api.user.v1.router import router as router_api_user_v1
+from impressive_strawberry.web.routes.root import home as route_home
 
 with open(pathlib.Path(__file__).parent.joinpath("description.md")) as file:
     description = file.read()
@@ -26,6 +27,7 @@ app.include_router(router_api_group_v1)
 app.include_router(router_api_achievements_v1)
 app.include_router(router_api_user_v1)
 app.include_router(router_api_unlock_v1)
+app.add_route("/", route_home, methods=["GET"])
 
 app.add_exception_handler(StrawberryException, handle_strawberry_error)
 app.add_exception_handler(sqlalchemy.exc.NoResultFound, handle_sqlalchemy_not_found)
