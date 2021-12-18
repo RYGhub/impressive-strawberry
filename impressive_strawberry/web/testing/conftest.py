@@ -47,7 +47,7 @@ def session(db_schema: str) -> sqlalchemy.orm.Session:
         yield s
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def application(session: sqlalchemy.orm.Session) -> tables.Application:
     a = tables.Application(
         name="Test Application",
@@ -57,10 +57,18 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
         webhook_type="STRAWBERRY",
     )
     session.add(a)
-    session.commit()
+    try:
+        session.commit()
+    except Exception as e:
+        session.rollback()
+
     yield a
+
     session.delete(a)
-    session.commit()
+    try:
+        session.commit()
+    except Exception as e:
+        session.rollback()
 
 
 @pytest.fixture(scope="function")
