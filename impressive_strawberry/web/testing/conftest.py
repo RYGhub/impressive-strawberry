@@ -1,5 +1,6 @@
 import uuid
 
+import dotenv
 import httpx
 import pytest
 import sqlalchemy.orm
@@ -10,7 +11,15 @@ from impressive_strawberry.web.app import app
 
 
 @pytest.fixture(scope="session")
-def db_schema() -> str:
+def dotenv_loaded() -> None:
+    dotenv.load_dotenv(".env", override=True)
+    dotenv.load_dotenv(".env.local", override=True)
+    dotenv.load_dotenv(".env.testing", override=True)
+    dotenv.load_dotenv(".env.testing.local", override=True)
+
+
+@pytest.fixture(scope="session")
+def db_schema(dotenv_loaded: None) -> str:
     uid = uuid.uuid4()
     schema = f"testing_{uid.hex.replace('-', '')}"
     engine.engine.execute(f"""CREATE SCHEMA "{schema}";""")
@@ -19,7 +28,7 @@ def db_schema() -> str:
     # It also ignores migrations
     for table in tables.Base.metadata.tables.values():
         table.schema = schema
-    tables.Base.metadata.create_all()
+    tables.Base.metadata.create_all(bind=engine.engine)
 
     yield schema
 
