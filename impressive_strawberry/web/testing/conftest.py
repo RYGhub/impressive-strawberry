@@ -32,13 +32,13 @@ def db_schema() -> str:
     engine.engine.execute(f"""DROP SCHEMA "{schema}" CASCADE;""")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def session(db_schema: str) -> sqlalchemy.orm.Session:
     with engine.Session() as s:
         yield s
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def application(session: sqlalchemy.orm.Session) -> tables.Application:
     a = tables.Application(
         name="Test Application",
@@ -52,7 +52,7 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
     return a
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def group(session: sqlalchemy.orm.Session, application: tables.Application) -> tables.Group:
     g = tables.Group(
         application=application,
@@ -63,7 +63,7 @@ def group(session: sqlalchemy.orm.Session, application: tables.Application) -> t
     return g
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Achievement:
     a = tables.Achievement(
         name="Test Achievement",
@@ -80,7 +80,7 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
     return a
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def user(session: sqlalchemy.orm.Session, application: tables.Application) -> tables.User:
     u = tables.User(
         application=application,
