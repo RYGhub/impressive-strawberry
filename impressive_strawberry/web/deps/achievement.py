@@ -37,3 +37,10 @@ def dep_achievement_basic(
     if result.group.application != application:
         raise ResourceNotFound()
     return result
+
+
+def dep_achievement_token(
+        session: engine.Session = fastapi.Depends(dep_session),
+        token: str = fastapi.Query(...),
+):
+    return crud.quick_retrieve(session, tables.Achievement, token=token)
