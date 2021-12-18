@@ -1,3 +1,5 @@
+import uuid
+
 import httpx
 import pytest
 import sqlalchemy.orm
@@ -13,8 +15,25 @@ async def client() -> httpx.AsyncClient:
         yield c
 
 
+@pytest.fixture(scope="session")
+def db_schema() -> str:
+    uid = uuid.uuid4()
+    schema = f"testing_{uid.hex.replace('-', '')}"
+    engine.engine.execute(f"""CREATE SCHEMA "{schema}";""")
+
+    # This has side-effects that may break stuff, keep it in mind
+    # It also ignores migrations
+    for table in tables.Base.metadata.tables.values():
+        table.schema = schema
+    tables.Base.metadata.create_all()
+
+    yield schema
+
+    engine.engine.execute(f"""DROP SCHEMA "{schema}" CASCADE;""")
+
+
 @pytest.fixture(scope="function")
-def session() -> sqlalchemy.orm.Session:
+def session(db_schema: str) -> sqlalchemy.orm.Session:
     with engine.Session() as s:
         yield s
 
