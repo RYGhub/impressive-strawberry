@@ -123,6 +123,11 @@ class Achievement(Base):
     :class:`Group`\\ s can identify :class:`.Achievements`\\ s through a custom identifier, the :attr:`.crystal`, which is specified on creation.
     """
 
+    token = Column(String, nullable=False, default=secrets.token_urlsafe)
+    """
+    Token used to unlock an achievement for an user without knowing the application token.
+    """
+
     group = relationship("Group", back_populates="achievements")
     unlocks = relationship("Unlock", back_populates="achievement")
 

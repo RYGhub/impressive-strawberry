@@ -55,6 +55,7 @@ class AchievementRead(edit.AchievementEdit):
 
     id: UUID
     group_id: UUID
+    token: str
 
     class Config(edit.AchievementEdit.Config):
         schema_extra = {
@@ -62,6 +63,7 @@ class AchievementRead(edit.AchievementEdit):
                 **edit.AchievementEdit.Config.schema_extra["example"],
                 "id": "a0da6178-d1d3-48ef-984c-7bb8a75c6d3b",
                 "group_id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
+                "token": "tLsk16aJojijZkuLQqJ-pVHnnBPVAl-G0HYavFkfmk4",
             },
         }
 
