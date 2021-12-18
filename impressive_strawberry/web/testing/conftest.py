@@ -49,7 +49,9 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
     )
     session.add(a)
     session.commit()
-    return a
+    yield a
+    session.delete(a)
+    session.commit()
 
 
 @pytest.fixture(scope="session")
@@ -60,7 +62,9 @@ def group(session: sqlalchemy.orm.Session, application: tables.Application) -> t
     )
     session.add(g)
     session.commit()
-    return g
+    yield g
+    session.delete(g)
+    session.commit()
 
 
 @pytest.fixture(scope="session")
@@ -77,7 +81,9 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
     )
     session.add(a)
     session.commit()
-    return a
+    yield a
+    session.delete(a)
+    session.commit()
 
 
 @pytest.fixture(scope="session")
@@ -88,4 +94,6 @@ def user(session: sqlalchemy.orm.Session, application: tables.Application) -> ta
     )
     session.add(u)
     session.commit()
-    return u
+    yield u
+    session.delete(u)
+    session.commit()
