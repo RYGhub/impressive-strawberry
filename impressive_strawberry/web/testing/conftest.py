@@ -53,7 +53,7 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
         name="Test Application",
         description="An application used to perform tests.",
         token="TEST-123",
-        webhook_url="",
+        webhook_url="https://example.org/testapp",
         webhook_type="STRAWBERRY",
     )
     session.add(a)
@@ -61,6 +61,14 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
     yield a
     session.delete(a)
     session.commit()
+
+
+@pytest.fixture(scope="function")
+async def authenticated_client(db_schema: str, application: tables.Application) -> httpx.AsyncClient:
+    async with httpx.AsyncClient(app=app, base_url="http://test", follow_redirects=True, headers={
+        "Authorization": "Bearer TEST-123",
+    }) as c:
+        yield c
 
 
 @pytest.fixture(scope="session")
