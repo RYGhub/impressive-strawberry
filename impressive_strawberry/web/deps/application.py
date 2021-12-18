@@ -18,6 +18,7 @@ dep_application_token = APIKeyHeader(
     scheme_name="application_token",
     name="Authorization",
     description="The token of the application to authenticate as.",
+    auto_error=False,
 )
 
 
