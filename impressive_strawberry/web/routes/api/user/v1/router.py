@@ -40,7 +40,7 @@ async def user_retrieve(
 
 
 @router.post(
-    "/{user}",
+    "/",
     summary="Add an user to the application you're authenticating as.",
     response_model=models.full.UserFull,
     status_code=201,
