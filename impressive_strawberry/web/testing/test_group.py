@@ -59,7 +59,7 @@ class TestGroupUpdate:
         data = response.json()
         assert data.items() >= {
             "crystal": "testone"
-        }
+        }.items()
 
         response = await authenticated_client.get(f"/api/application/v1/this/group/v1/testone")
         assert response.status_code == 200
@@ -67,18 +67,13 @@ class TestGroupUpdate:
         data = response.json()
         assert data.items() >= {
             "crystal": "testone"
-        }
+        }.items()
 
 
 class TestGroupDelete:
     async def test_success(self, authenticated_client: httpx.AsyncClient, group: tables.Group):
         response = await authenticated_client.delete(f"/api/application/v1/this/group/v1/test")
-        assert response.status_code == 200
-
-        data = response.json()
-        assert data.items() >= {
-            "crystal": "test"
-        }
+        assert response.status_code == 204
 
         response = await authenticated_client.get(f"/api/application/v1/this/group/v1/test")
         assert response.status_code == 404

@@ -65,8 +65,8 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
 
     yield a
 
-    session.delete(a)
     try:
+        session.delete(a)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")
@@ -91,8 +91,8 @@ def group(session: sqlalchemy.orm.Session, application: tables.Application) -> t
 
     yield g
 
-    session.delete(g)
     try:
+        session.delete(g)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")
@@ -115,8 +115,8 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
 
     yield a
 
-    session.delete(a)
     try:
+        session.delete(a)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")
@@ -133,8 +133,8 @@ def user(session: sqlalchemy.orm.Session, application: tables.Application) -> ta
 
     yield u
 
-    session.delete(u)
     try:
+        session.delete(u)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")

@@ -67,8 +67,8 @@ class Application(Base):
     webhook_url = Column(String, nullable=False)
     webhook_type = Column(Enum(WebhookType), nullable=False, server_default="STRAWBERRY")
 
-    groups = relationship("Group", back_populates="application")
-    users = relationship("User", back_populates="application")
+    groups = relationship("Group", back_populates="application", cascade="all, delete-orphan")
+    users = relationship("User", back_populates="application", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Application id={self.id}>"
@@ -96,7 +96,7 @@ class Group(Base):
     """
 
     application = relationship("Application", back_populates="groups")
-    achievements = relationship("Achievement", back_populates="group")
+    achievements = relationship("Achievement", back_populates="group", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Group id={self.id} crystal={self.crystal}>"
@@ -135,7 +135,7 @@ class Achievement(Base):
     """
 
     group = relationship("Group", back_populates="achievements")
-    unlocks = relationship("Unlock", back_populates="achievement")
+    unlocks = relationship("Unlock", back_populates="achievement", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Achievement id={self.id} crystal={self.crystal}>"
@@ -185,7 +185,7 @@ class User(Base):
     """
 
     application = relationship("Application", back_populates="users")
-    unlocks = relationship("Unlock", back_populates="user")
+    unlocks = relationship("Unlock", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User id={self.id}>"
