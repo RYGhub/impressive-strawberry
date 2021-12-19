@@ -1,5 +1,6 @@
 import httpx
 import pytest
+import sqlalchemy.orm
 
 from impressive_strawberry.database import tables
 
@@ -77,3 +78,13 @@ class TestGroupDelete:
 
         response = await authenticated_client.get(f"/api/application/v1/this/group/v1/test")
         assert response.status_code == 404
+
+    async def test_cascade_deletion(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, group: tables.Group,
+                                    session: sqlalchemy.orm.Session):
+        response = await authenticated_client.delete(f"/api/application/v1/this/group/v1/test")
+        assert response.status_code == 204
+
+        achievements = session.execute(
+            sqlalchemy.sql.select(tables.Achievement)
+        ).all()
+        assert len(achievements) == 0
