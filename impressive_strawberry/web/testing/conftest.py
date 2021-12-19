@@ -1,13 +1,17 @@
+import logging
 import uuid
 
 import dotenv
 import httpx
 import pytest
+import sqlalchemy.exc
 import sqlalchemy.orm
 
 from impressive_strawberry.database import engine
 from impressive_strawberry.database import tables
 from impressive_strawberry.web.app import app
+
+log = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="session")
@@ -41,7 +45,7 @@ async def client(db_schema: str) -> httpx.AsyncClient:
         yield c
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def session(db_schema: str) -> sqlalchemy.orm.Session:
     with engine.Session() as s:
         yield s
@@ -57,18 +61,15 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
         webhook_type="STRAWBERRY",
     )
     session.add(a)
-    try:
-        session.commit()
-    except Exception as e:
-        session.rollback()
+    session.commit()
 
     yield a
 
     session.delete(a)
     try:
         session.commit()
-    except Exception as e:
-        session.rollback()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
@@ -79,7 +80,7 @@ async def authenticated_client(db_schema: str, application: tables.Application) 
         yield c
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def group(session: sqlalchemy.orm.Session, application: tables.Application) -> tables.Group:
     g = tables.Group(
         application=application,
@@ -87,12 +88,17 @@ def group(session: sqlalchemy.orm.Session, application: tables.Application) -> t
     )
     session.add(g)
     session.commit()
+
     yield g
+
     session.delete(g)
-    session.commit()
+    try:
+        session.commit()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Achievement:
     a = tables.Achievement(
         name="Test Achievement",
@@ -106,12 +112,17 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
     )
     session.add(a)
     session.commit()
+
     yield a
+
     session.delete(a)
-    session.commit()
+    try:
+        session.commit()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def user(session: sqlalchemy.orm.Session, application: tables.Application) -> tables.User:
     u = tables.User(
         application=application,
@@ -119,6 +130,11 @@ def user(session: sqlalchemy.orm.Session, application: tables.Application) -> ta
     )
     session.add(u)
     session.commit()
+
     yield u
+
     session.delete(u)
-    session.commit()
+    try:
+        session.commit()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")
