@@ -23,20 +23,20 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.10.1"
-      - name: "Initialize CodeQL"
-        uses: github/codeql-action/init@v1
-        with:
-          languages: "python"
-      - name: "Perform CodeQL Analysis"
-        uses: github/codeql-action/analyze@v1
+      # - name: "Initialize CodeQL"
+      #   uses: github/codeql-action/init@v1
+      #   with:
+      #     languages: "python"
+      # - name: "Perform CodeQL Analysis"
+      #   uses: github/codeql-action/analyze@v1
       - name: "Install backend dependencies"
         run: poetry install --no-interaction
       - name: "Find Poetry Python environment"
         run: echo "pythonLocation=$(poetry env list --full-path | cut -f1 -d' ')/bin" >> $GITHUB_ENV
-      - name: "Activate Poetry environment"
-        run: source $pythonLocation/activate
       - name: "Run tests"
-        run: pytest --verbose --cov=. --cov-report=html
+        run: |
+          source $pythonLocation/activate
+          pytest --verbose --cov=. --cov-report=html
       - name: "Upload coverage"
         uses: actions/upload-artifact@v2
         with:
