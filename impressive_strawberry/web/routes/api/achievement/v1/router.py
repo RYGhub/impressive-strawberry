@@ -8,7 +8,7 @@ from impressive_strawberry.web import models
 from impressive_strawberry.web import responses
 
 router = fastapi.routing.APIRouter(
-    prefix="/api/application/v1/this/group/v1/{group}/achievement/v1",
+    prefix="/api/achievement/v1",
     tags=[
         "Achievements v1",
     ],
@@ -22,7 +22,7 @@ router = fastapi.routing.APIRouter(
 )
 async def achievement_list(
         *,
-        group: tables.Group = fastapi.Depends(deps.dep_group),
+        group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     return group.achievements
 
@@ -49,7 +49,7 @@ async def achievement_create(
         *,
         data: models.edit.AchievementEdit,
         session: Session = fastapi.Depends(deps.dep_session),
-        group: tables.Group = fastapi.Depends(deps.dep_group),
+        group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     return crud.quick_create(session, tables.Achievement(
         name=data.name,

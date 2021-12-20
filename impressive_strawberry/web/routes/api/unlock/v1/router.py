@@ -10,14 +10,17 @@ from impressive_strawberry.web.errors import DuplicatingUnrepeatableUnlock
 from impressive_strawberry.webhooks import notify_unlock
 
 app_router = fastapi.routing.APIRouter(
-    prefix="/api/application/v1/this/group/v1/{group}/achievement/v1/{achievement}/unlock/v1",
+    prefix="/api/unlock-full/v1",
     tags=[
         "Unlock v1",
     ],
 )
 
 token_router = fastapi.routing.APIRouter(
-    prefix="/api/direct-unlock/v1"
+    prefix="/api/unlock-direct/v1",
+    tags=[
+        "Unlock v1",
+    ]
 )
 
 
@@ -30,9 +33,9 @@ token_router = fastapi.routing.APIRouter(
 async def unlock_create(
         *,
         session: Session = fastapi.Depends(deps.dep_session),
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        application: tables.Application = fastapi.Depends(deps.dep_application_this),
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_basic),
-        user: tables.User = fastapi.Depends(deps.dep_user)
+        user: tables.User = fastapi.Depends(deps.dep_user_thisapp)
 ):
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock()
@@ -48,7 +51,7 @@ async def unlock_create(
 )
 async def unlock_delete(
         *,
-        unlock: tables.Unlock = fastapi.Depends(deps.dep_unlock),
+        unlock: tables.Unlock = fastapi.Depends(deps.dep_unlock_thisapp),
         session: Session = fastapi.Depends(deps.dep_session)
 ):
     session.delete(unlock)
@@ -65,7 +68,7 @@ async def direct_unlock_create(
         *,
         session: Session = fastapi.Depends(deps.dep_session),
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_basic),
-        user: tables.User = fastapi.Depends(deps.dep_user)
+        user: tables.User = fastapi.Depends(deps.dep_user_thisapp)
 ):
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock()

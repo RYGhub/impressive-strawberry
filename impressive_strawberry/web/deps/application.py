@@ -10,8 +10,7 @@ from impressive_strawberry.web import errors
 from .database import dep_session
 
 __all__ = (
-    "dep_application_token",
-    "dep_application",
+    "dep_application_this",
 )
 
 dep_application_token = APIKeyHeader(
@@ -22,10 +21,15 @@ dep_application_token = APIKeyHeader(
 )
 
 
-def dep_application(
+def dep_application_this(
         session: Session = fastapi.Depends(dep_session),
         header: tables.Application = fastapi.Security(dep_application_token),
 ) -> tables.Application:
+    """
+    Dependency which parses the ``group`` query parameter into a :class:`.tables.Group`, trying to parse it as a UUID first, then falling back to using it as the crystal.
+
+    It is limited to the groups accessible to the application the request is being performed as.
+    """
     if not header:
         raise errors.MissingAuthHeader()
 

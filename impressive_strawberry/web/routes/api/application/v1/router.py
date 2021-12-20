@@ -1,5 +1,6 @@
-import fastapi.routing
 import secrets
+
+import fastapi.routing
 from sqlalchemy.orm import Session
 
 from impressive_strawberry.database import tables
@@ -38,7 +39,7 @@ async def application_create(
 )
 async def application_this_retrieve(
         *,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        application: tables.Application = fastapi.Depends(deps.dep_application_this),
 ):
     return application
 
@@ -50,7 +51,7 @@ async def application_this_retrieve(
 )
 async def application_this_update(
         *,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        application: tables.Application = fastapi.Depends(deps.dep_application_this),
         data: models.edit.ApplicationEdit,
         session: Session = fastapi.Depends(deps.dep_session)
 ):
@@ -64,7 +65,7 @@ async def application_this_update(
 )
 async def application_this_delete(
         *,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        application: tables.Application = fastapi.Depends(deps.dep_application_this),
         session: Session = fastapi.Depends(deps.dep_session),
 ):
     session.delete(application)
@@ -79,7 +80,7 @@ async def application_this_delete(
 )
 async def application_this_revoke(
         *,
-        application: tables.Application = fastapi.Depends(deps.dep_application),
+        application: tables.Application = fastapi.Depends(deps.dep_application_this),
         session: Session = fastapi.Depends(deps.dep_session),
 ):
     application.token = secrets.token_urlsafe()
