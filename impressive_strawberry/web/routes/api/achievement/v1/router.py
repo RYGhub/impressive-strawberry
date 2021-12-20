@@ -34,7 +34,7 @@ async def achievement_list(
 )
 async def achievement_retrieve(
         *,
-        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
 ):
     return achievement
 
@@ -48,7 +48,7 @@ async def achievement_retrieve(
 async def achievement_create(
         *,
         data: models.edit.AchievementEdit,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     return crud.quick_create(session, tables.Achievement(
@@ -71,8 +71,8 @@ async def achievement_create(
 async def achievement_update(
         *,
         data: models.edit.AchievementEdit,
-        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
-        session: Session = fastapi.Depends(deps.dep_session)
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
+        session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     return crud.quick_update(session, achievement, data)
 
@@ -84,8 +84,8 @@ async def achievement_update(
 )
 async def achievement_delete(
         *,
-        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
-        session: Session = fastapi.Depends(deps.dep_session)
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
+        session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     session.delete(achievement)
     session.commit()

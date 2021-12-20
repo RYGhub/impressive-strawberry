@@ -8,7 +8,7 @@ pytestmark = pytest.mark.asyncio
 
 class TestUserRetrieve:
     async def test_success(self, authenticated_client: httpx.AsyncClient, user: tables.User):
-        response = await authenticated_client.get(f"/api/application/v1/this/user/v1/{user.crystal}")
+        response = await authenticated_client.get(f"/api/user/v1/{user.crystal}")
         assert response.status_code == 200
 
         data = response.json()
@@ -23,7 +23,7 @@ class TestUserCreate:
             "crystal": "new",
         }
 
-        response = await authenticated_client.post(f"/api/application/v1/this/user/v1/", json=body)
+        response = await authenticated_client.post(f"/api/user/v1/", json=body)
         assert response.status_code == 201
 
         data = response.json()
@@ -38,7 +38,7 @@ class TestUserUpdate:
             "crystal": "testone",
         }
 
-        response = await authenticated_client.put(f"/api/application/v1/this/user/v1/test", json=body)
+        response = await authenticated_client.put(f"/api/user/v1/test", json=body)
         assert response.status_code == 200
 
         data = response.json()
@@ -46,7 +46,7 @@ class TestUserUpdate:
             "crystal": "testone"
         }.items()
 
-        response = await authenticated_client.get(f"/api/application/v1/this/user/v1/testone")
+        response = await authenticated_client.get(f"/api/user/v1/testone")
         assert response.status_code == 200
 
         data = response.json()
@@ -57,8 +57,8 @@ class TestUserUpdate:
 
 class TestUserDelete:
     async def test_success(self, authenticated_client: httpx.AsyncClient, user: tables.User):
-        response = await authenticated_client.delete(f"/api/application/v1/this/user/v1/test")
+        response = await authenticated_client.delete(f"/api/user/v1/test")
         assert response.status_code == 204
 
-        response = await authenticated_client.get(f"/api/application/v1/this/user/v1/test")
+        response = await authenticated_client.get(f"/api/user/v1/test")
         assert response.status_code == 404

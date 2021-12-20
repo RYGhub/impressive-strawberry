@@ -48,7 +48,7 @@ async def group_retrieve(
 async def group_create(
         *,
         data: models.edit.GroupEdit,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         application: tables.Application = fastapi.Depends(deps.dep_application_this)
 ):
     return crud.quick_create(session, tables.Group(crystal=data.crystal, application_id=application.id))
@@ -62,7 +62,7 @@ async def group_create(
 async def group_update(
         *,
         data: models.edit.GroupEdit,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     return crud.quick_update(session, group, data)
@@ -75,7 +75,7 @@ async def group_update(
 )
 async def group_delete(
         *,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     session.delete(group)

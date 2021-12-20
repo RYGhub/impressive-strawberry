@@ -9,7 +9,7 @@ pytestmark = pytest.mark.asyncio
 
 class TestGroupList:
     async def test_success(self, authenticated_client: httpx.AsyncClient, group: tables.Group):
-        response = await authenticated_client.get("/api/application/v1/this/group/v1")
+        response = await authenticated_client.get("/api/group/v1")
         assert response.status_code == 200
 
         data = response.json()
@@ -24,7 +24,7 @@ class TestGroupList:
 
 class TestGroupRetrieve:
     async def test_success(self, authenticated_client: httpx.AsyncClient, group: tables.Group):
-        response = await authenticated_client.get(f"/api/application/v1/this/group/v1/{group.crystal}")
+        response = await authenticated_client.get(f"/api/group/v1/{group.crystal}")
         assert response.status_code == 200
 
         data = response.json()
@@ -39,7 +39,7 @@ class TestGroupCreate:
             "crystal": "new",
         }
 
-        response = await authenticated_client.post(f"/api/application/v1/this/group/v1/", json=body)
+        response = await authenticated_client.post(f"/api/group/v1/", json=body)
         assert response.status_code == 201
 
         data = response.json()
@@ -54,7 +54,7 @@ class TestGroupUpdate:
             "crystal": "testone",
         }
 
-        response = await authenticated_client.put(f"/api/application/v1/this/group/v1/test", json=body)
+        response = await authenticated_client.put(f"/api/group/v1/test", json=body)
         assert response.status_code == 200
 
         data = response.json()
@@ -62,7 +62,7 @@ class TestGroupUpdate:
             "crystal": "testone"
         }.items()
 
-        response = await authenticated_client.get(f"/api/application/v1/this/group/v1/testone")
+        response = await authenticated_client.get(f"/api/group/v1/testone")
         assert response.status_code == 200
 
         data = response.json()
@@ -73,15 +73,15 @@ class TestGroupUpdate:
 
 class TestGroupDelete:
     async def test_success(self, authenticated_client: httpx.AsyncClient, group: tables.Group):
-        response = await authenticated_client.delete(f"/api/application/v1/this/group/v1/test")
+        response = await authenticated_client.delete(f"/api/group/v1/test")
         assert response.status_code == 204
 
-        response = await authenticated_client.get(f"/api/application/v1/this/group/v1/test")
+        response = await authenticated_client.get(f"/api/group/v1/test")
         assert response.status_code == 404
 
     async def test_cascade_deletion(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, group: tables.Group,
                                     session: sqlalchemy.orm.Session):
-        response = await authenticated_client.delete(f"/api/application/v1/this/group/v1/test")
+        response = await authenticated_client.delete(f"/api/group/v1/test")
         assert response.status_code == 204
 
         achievements = session.execute(

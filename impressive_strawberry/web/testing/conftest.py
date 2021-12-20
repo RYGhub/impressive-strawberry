@@ -138,3 +138,21 @@ def user(session: sqlalchemy.orm.Session, application: tables.Application) -> ta
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")
+
+
+@pytest.fixture(scope="function")
+def unlock(session: sqlalchemy.orm.Session, user: tables.User, achievement: tables.Achievement) -> tables.Unlock:
+    u = tables.Unlock(
+        user=user,
+        achievement=achievement
+    )
+    session.add(u)
+    session.commit()
+
+    yield u
+
+    try:
+        session.delete(u)
+        session.commit()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")

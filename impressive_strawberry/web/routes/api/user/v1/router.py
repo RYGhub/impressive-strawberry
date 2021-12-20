@@ -48,7 +48,7 @@ async def user_retrieve(
 async def user_create(
         *,
         data: models.edit.UserEdit,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         application: tables.Application = fastapi.Depends(deps.dep_application_this)
 ):
     return crud.quick_create(session, tables.User(application_id=application.id, crystal=data.crystal))
@@ -62,7 +62,7 @@ async def user_create(
 async def user_update(
         *,
         data: models.edit.UserEdit,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         user: tables.User = fastapi.Depends(deps.dep_user_thisapp)
 ):
     return crud.quick_update(session, user, data)
@@ -75,7 +75,7 @@ async def user_update(
 )
 async def user_delete(
         *,
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         user: tables.User = fastapi.Depends(deps.dep_user_thisapp)
 ):
     session.delete(user)

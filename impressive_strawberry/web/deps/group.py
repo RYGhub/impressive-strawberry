@@ -5,7 +5,7 @@ import fastapi
 from impressive_strawberry.database import tables, engine
 from impressive_strawberry.web import crud
 from impressive_strawberry.web.deps.application import dep_application_this
-from impressive_strawberry.web.deps.database import dep_session
+from impressive_strawberry.web.deps.database import dep_dbsession
 
 __all__ = (
     "dep_group_thisapp",
@@ -13,7 +13,7 @@ __all__ = (
 
 
 def dep_group_thisapp(
-        session: engine.Session = fastapi.Depends(dep_session),
+        session: engine.Session = fastapi.Depends(dep_dbsession),
         application: tables.Application = fastapi.Depends(dep_application_this),
         group: str = fastapi.Query(...)
 ) -> tables.Group:

@@ -26,7 +26,7 @@ router = fastapi.routing.APIRouter(
 async def application_create(
         *,
         data: models.edit.ApplicationEdit,
-        session: Session = fastapi.Depends(deps.dep_session)
+        session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     return crud.quick_create(session,
                              tables.Application(name=data.name, description=data.description, webhook_url=data.webhook_url, webhook_type=data.webhook_type))
@@ -53,7 +53,7 @@ async def application_this_update(
         *,
         application: tables.Application = fastapi.Depends(deps.dep_application_this),
         data: models.edit.ApplicationEdit,
-        session: Session = fastapi.Depends(deps.dep_session)
+        session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     return crud.quick_update(session=session, obj=application, data=data)
 
@@ -66,7 +66,7 @@ async def application_this_update(
 async def application_this_delete(
         *,
         application: tables.Application = fastapi.Depends(deps.dep_application_this),
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
 ):
     session.delete(application)
     session.commit()
@@ -81,7 +81,7 @@ async def application_this_delete(
 async def application_this_revoke(
         *,
         application: tables.Application = fastapi.Depends(deps.dep_application_this),
-        session: Session = fastapi.Depends(deps.dep_session),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
 ):
     application.token = secrets.token_urlsafe()
     session.commit()

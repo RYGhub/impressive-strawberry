@@ -8,7 +8,7 @@ pytestmark = pytest.mark.asyncio
 
 class TestAchievementList:
     async def test_success(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement):
-        response = await authenticated_client.get("/api/application/v1/this/group/v1/test/achievement/v1/")
+        response = await authenticated_client.get("/api/achievement/v1/", params={"group": "test"})
         assert response.status_code == 200
 
         data = response.json()
@@ -28,7 +28,7 @@ class TestAchievementList:
 
 class TestAchievementRetrieve:
     async def test_success(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement):
-        response = await authenticated_client.get("/api/application/v1/this/group/v1/test/achievement/v1/test")
+        response = await authenticated_client.get("/api/achievement/v1/test", params={"group": "test"})
         assert response.status_code == 200
 
         data = response.json()
@@ -55,7 +55,7 @@ class TestAchievementCreate:
             "crystal": "mla",
         }
 
-        response = await authenticated_client.post("/api/application/v1/this/group/v1/test/achievement/v1/", json=body)
+        response = await authenticated_client.post("/api/achievement/v1/", params={"group": "test"}, json=body)
         assert response.status_code == 201
 
         data = response.json()
@@ -74,13 +74,13 @@ class TestAchievementUpdate:
             "crystal": "test",
         }
 
-        response = await authenticated_client.put("/api/application/v1/this/group/v1/test/achievement/v1/test", json=body)
+        response = await authenticated_client.put("/api/achievement/v1/test", params={"group": "test"}, json=body)
         assert response.status_code == 200
 
         data = response.json()
         assert data.items() >= body.items()
 
-        response = await authenticated_client.get("/api/application/v1/this/group/v1/test/achievement/v1/test")
+        response = await authenticated_client.get("/api/achievement/v1/test", params={"group": "test"})
         assert response.status_code == 200
 
         data = response.json()
@@ -89,8 +89,8 @@ class TestAchievementUpdate:
 
 class TestAchievementDelete:
     async def test_success(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement):
-        response = await authenticated_client.delete("/api/application/v1/this/group/v1/test/achievement/v1/test")
+        response = await authenticated_client.delete("/api/achievement/v1/test", params={"group": "test"})
         assert response.status_code == 204
 
-        response = await authenticated_client.get("/api/application/v1/this/group/v1/test/achievement/v1/test")
+        response = await authenticated_client.get("/api/achievement/v1/test", params={"group": "test"})
         assert response.status_code == 404
