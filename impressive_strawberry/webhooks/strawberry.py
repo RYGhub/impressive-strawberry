@@ -9,6 +9,6 @@ async def notify_unlock(url: str, unlock: tables.Unlock) -> None:
     serialized = full.UnlockFull.from_orm(unlock)
     # Send the post request
     async with httpx.AsyncClient() as client:
-        response: httpx.Response = await client.post(url, json=serialized.json())
+        response: httpx.Response = await client.post(url, json=serialized.dict())
         # Raise if the request fails
         response.raise_for_status()
