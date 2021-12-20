@@ -28,6 +28,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - "5432:5432"
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v2
@@ -53,9 +55,6 @@ jobs:
         run: |
           source $pythonLocation/activate
           pytest --verbose --cov=. --cov-report=html
-        env:
-          IS_DB_URI: "postgresql://username:password@postgres/db"
-          IS_WEB_PORT: 30071
       - name: "Upload coverage"
         uses: actions/upload-artifact@v2
         with:
