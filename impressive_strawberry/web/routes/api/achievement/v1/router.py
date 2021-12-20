@@ -8,7 +8,7 @@ from impressive_strawberry.web import models
 from impressive_strawberry.web import responses
 
 router = fastapi.routing.APIRouter(
-    prefix="/api/application/v1/this/group/v1/{group}/achievement/v1",
+    prefix="/api/achievement/v1",
     tags=[
         "Achievements v1",
     ],
@@ -22,7 +22,7 @@ router = fastapi.routing.APIRouter(
 )
 async def achievement_list(
         *,
-        group: tables.Group = fastapi.Depends(deps.dep_group),
+        group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     return group.achievements
 
@@ -34,7 +34,7 @@ async def achievement_list(
 )
 async def achievement_retrieve(
         *,
-        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
 ):
     return achievement
 
@@ -48,8 +48,8 @@ async def achievement_retrieve(
 async def achievement_create(
         *,
         data: models.edit.AchievementEdit,
-        session: Session = fastapi.Depends(deps.dep_session),
-        group: tables.Group = fastapi.Depends(deps.dep_group),
+        session: Session = fastapi.Depends(deps.dep_dbsession),
+        group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
 ):
     return crud.quick_create(session, tables.Achievement(
         name=data.name,
@@ -71,8 +71,8 @@ async def achievement_create(
 async def achievement_update(
         *,
         data: models.edit.AchievementEdit,
-        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
-        session: Session = fastapi.Depends(deps.dep_session)
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
+        session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     return crud.quick_update(session, achievement, data)
 
@@ -84,8 +84,8 @@ async def achievement_update(
 )
 async def achievement_delete(
         *,
-        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement),
-        session: Session = fastapi.Depends(deps.dep_session)
+        achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
+        session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     session.delete(achievement)
     session.commit()
