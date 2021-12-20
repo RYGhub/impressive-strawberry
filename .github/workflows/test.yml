@@ -1,0 +1,44 @@
+name: "Test code using Pytest"
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "impressive_strawberry/**"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "impressive_strawberry/**"
+jobs:
+  testanalyze:
+    name: "Test and analyze source"
+    runs-on: "ubuntu-latest"
+    permissions:
+      actions: "read"
+      contents: "read"
+      security-events: "write"
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v2
+      - name: "Setup Python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - name: "Initialize CodeQL"
+        uses: github/codeql-action/init@v1
+        with:
+          languages: "python"
+      - name: "Perform CodeQL Analysis"
+        uses: github/codeql-action/analyze@v1
+      - name: "Install backend dependencies"
+        run: poetry install --no-interaction
+      - name: "Find Poetry Python environment"
+        run: echo "pythonLocation=$(poetry env list --full-path | cut -f1 -d' ')/bin" >> $GITHUB_ENV
+      - name: "Activate Poetry environment"
+        run: source $pythonLocation/activate
+      - name: "Run tests"
+        run: pytest --verbose --cov=. --cov-report=html
+      - name: "Upload coverage"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "code-coverage-report"
+          path: htmlcov

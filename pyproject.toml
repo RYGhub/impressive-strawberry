@@ -15,6 +15,7 @@ python-dotenv = "^0.19.1"
 uvicorn = "^0.15.0"
 lazy-object-proxy = "^1.6.0"
 httpx = "^0.21.1"
+pytest-cov = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 Sphinx = "^4.2.0"
@@ -24,6 +25,7 @@ pytest = "^6.2.5"
 pytest-asyncio = "^0.16.0"
 pytest-dotenv = "^0.5.2"
 pytest-mock = "^3.6.1"
+pytest-github-actions-annotate-failures = "^0.1.6"
 
 [tool.pytest.ini_options]
 env_override_existing_values = 1
