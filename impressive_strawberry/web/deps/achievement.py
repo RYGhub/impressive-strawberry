@@ -29,7 +29,7 @@ def dep_achievement(
 
 
 def dep_achievement_basic(
-        achievement: UUID,
+        achievement: UUID = fastapi.Query(...),
         session: engine.Session = fastapi.Depends(dep_session),
         application: tables.Application = fastapi.Depends(dep_application),
 ):
