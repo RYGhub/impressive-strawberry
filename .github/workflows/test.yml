@@ -31,7 +31,7 @@ jobs:
 
       - name: "Run tests"
         run: |
-          source ${{ steps.pyenv.outputs.pyenv }}/bin/activate
+          source ${{ steps.pyenv.outputs.pyenv }}/activate
           pytest --verbose --cov=. --cov-report=html
 
       - name: "Upload coverage"
