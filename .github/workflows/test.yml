@@ -26,6 +26,7 @@ jobs:
         uses: abatilo/actions-poetry@v2.1.4
 
       - name: "Setup Poetry Python environment"
+        id: pyenv
         uses: Steffo99/actions-poetry-deps@0.2.3
 
       - name: "Run tests"
