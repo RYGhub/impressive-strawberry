@@ -1,26 +1,44 @@
-# Customized Sphinx configuration
+# Extended Sphinx configuration
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
+
+
+###########
+# Imports #
+###########
 
 import datetime
 
-import pkg_resources
+###########################
+# Developer configuration #
+###########################
+# Alter these to reflect the nature of your project!
 
 # Project name
-project = 'Strawberry'
+project = 'Impressive Strawberry'
 # Project author
-author = 'Stefano Pigozzi, Lorenzo Balugani'
+author = 'Stefano Pigozzi and Lorenzo Balugani'
 # Project copyright
 project_copyright = f'{datetime.date.today().year}, {author}'
-# Project short version
-version = pkg_resources.get_distribution(project.lower()).version
-# Project long version
-release = pkg_resources.get_distribution(project.lower()).version
 
 # Sphinx language
 language = "en"
+
+# Configuration for the theme
+html_theme_options = {
+    # Set this to the main color of your project
+    # "style_nav_header_background": "#FF7F00",
+}
+
+##########################
+# Advanced configuration #
+##########################
+# Change these options only if you need further customization
+
 # Sphinx extensions
 extensions = [
     "sphinx.ext.intersphinx",
+    "sphinx.ext.autosectionlabel",
+    "sphinx.ext.todo",
 ]
 
 # Source files encoding
@@ -52,9 +70,9 @@ rst_prolog = ""
 rst_epilog = ""
 
 # Default domain
-primary_domain = None
+primary_domain = "py"
 # Default role
-default_role = None
+default_role = "any"
 
 # Print warnings on the page
 keep_warnings = False
@@ -63,18 +81,13 @@ nitpicky = False
 
 # Intersphinx URLs
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.8", None),
+    "python": ("https://docs.python.org/3.10", None),
 }
 # Manpages URL
 manpages_url = "https://man.archlinux.org/"
 
 # HTML builder theme
 html_theme = 'sphinx_rtd_theme'
-# Configuration for the theme
-html_theme_options = {
-    "style_nav_header_background": "#D72929",
-    "github_url": "https://github.com/Steffo99/strawberry/tree/main/docs/source",
-}
 # Title of the HTML page
 html_title = f"{project}"
 # Short title of the HTML page
@@ -87,3 +100,33 @@ html_static_path = [
 html_extra_path = [
     "_extra",
 ]
+# Disable additional indexes
+html_domain_indices = False
+
+# LaTeX rendering engine to use
+latex_engine = "lualatex"
+# LaTeX top level title type
+latex_toplevel_sectioning = "chapter"
+# LaTeX URLs rendering
+latex_show_urls = "footnote"
+# LaTeX theme
+latex_theme = "manual"
+
+# TODOs
+todo_include_todos = True
+todo_emit_warnings = True
+todo_link_only = False
+
+# Smartquotes
+smartquotes_excludes = {
+    "languages": [
+        # Smartquotes is completely broken in italian!
+        "it",
+        # Keep the default, just in case
+        "ja",
+    ],
+    "builders": [
+        "man",
+        "text",
+    ]
+}

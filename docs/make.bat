@@ -2,13 +2,14 @@
 
 pushd %~dp0
 
-REM Command file for Sphinx documentation
+REM Slightly extended command file for Sphinx documentation
 
-if "%SPHINXBUILD%" == "" (
-	set SPHINXBUILD=sphinx-build
-)
+set SPHINXOPTS=
+set SPHINXBUILD=sphinx-build
 set SOURCEDIR=source
 set BUILDDIR=build
+set LATEXMKOPTS=
+set LATEXOPTS=-interaction=nonstopmode
 
 if "%1" == "" goto help
 
