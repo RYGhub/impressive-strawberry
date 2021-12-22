@@ -30,7 +30,7 @@ jobs:
 
       - name: "Run tests"
         run: |
-          source $pythonLocation/activate
+          source $pythonLocation/bin/activate
           pytest --verbose --cov=. --cov-report=html
 
       - name: "Upload coverage"
