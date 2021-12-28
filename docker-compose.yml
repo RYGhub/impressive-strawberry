@@ -1,0 +1,22 @@
+version: 3.9
+
+volumes:
+  db-data:
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: impressive_strawberry
+
+  impressive:
+    image: ghcr.io/ryghub/impressive-strawberry
+    restart: always
+    environment:
+      IS_DB_URI: postgresql://postgres:password@db/impressive_strawberry
+      IS_WEB_PORT: 80
