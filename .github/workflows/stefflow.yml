@@ -164,3 +164,24 @@ jobs:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           publish_dir: "docs/build/html/"
           enable_jekyll: false
+
+  build-docker:
+    name: "🐳 Build and publish Docker image"
+    runs-on: ubuntu-latest
+    needs: build-package
+    if: ${{ github.event_name == 'release' || github.event_name == 'workflow_dispatch' }}
+
+    steps:
+      - name: "⬇️ Checkout repository"
+        uses: actions/checkout@v2
+
+      - name: "🔑 Login to GitHub Containers"
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u Steffo99 --password-stdin
+
+      - name: "🏗 Build the Docker image"
+        run: docker build ./backend --tag ghcr.io/steffo99/impressive-strawberry:latest
+
+      # TODO: Add version tags to the image
+
+      - name: "🌐 Publish the Docker image on ghcr.io"
+        run: docker push ghcr.io/steffo99/impressive-strawberry:latest
