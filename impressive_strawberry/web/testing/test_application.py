@@ -25,6 +25,31 @@ class TestApplicationCreate:
         assert data["groups"] == []
         assert data["users"] == []
 
+    async def test_missing_secret(self, client: httpx.AsyncClient):
+        response = await client.post("/api/application/v1/")
+        assert response.status_code == 401
+
+        data = response.json()
+        assert data["error_code"] == "MISSING_AUTH_HEADER"
+
+    async def test_invalid_secret(self, client: httpx.AsyncClient):
+        response = await client.post("/api/application/v1/", headers={
+            "Authorization": "asjduisjfisdjgfiasj",
+        })
+        assert response.status_code == 401
+
+        data = response.json()
+        assert data["error_code"] == "INVALID_AUTH_HEADER"
+
+    async def test_wrong_secret(self, client: httpx.AsyncClient):
+        response = await client.post("/api/application/v1/", headers={
+            "Authorization": "Secret xyzzy",
+        })
+        assert response.status_code == 401
+
+        data = response.json()
+        assert data["error_code"] == "WRONG_AUTH_HEADER"
+
     async def test_missing_body(self, client: httpx.AsyncClient):
         response = await client.post("/api/application/v1/")
         assert response.status_code == 422
