@@ -6,6 +6,7 @@ from .achievement import *
 from .application import *
 from .database import *
 from .group import *
+from .impressive import *
 from .unlock import *
 from .user import *
 
@@ -16,4 +17,5 @@ __all__ = (
     "group",
     "user",
     "unlock",
+    "impressive",
 )

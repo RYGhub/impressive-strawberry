@@ -50,7 +50,7 @@ class InvalidAuthHeader(StrawberryException):
 class WrongAuthHeader(StrawberryException):
     STATUS_CODE = 401
     ERROR_CODE = "WRONG_AUTH_HEADER"
-    REASON = "The token provideed in the Authorization header does not match any application."
+    REASON = "The value provideed in the Authorization header is in a valid format, but its value is incorrect."
 
 
 class ResourceNotFound(StrawberryException):

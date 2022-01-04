@@ -26,7 +26,8 @@ router = fastapi.routing.APIRouter(
 async def application_create(
         *,
         data: models.edit.ApplicationEdit,
-        session: Session = fastapi.Depends(deps.dep_dbsession)
+        session: Session = fastapi.Depends(deps.dep_dbsession),
+        _secret: None = fastapi.Depends(deps.dep_impressive_secret_required)
 ):
     return crud.quick_create(session,
                              tables.Application(name=data.name, description=data.description, webhook_url=data.webhook_url, webhook_type=data.webhook_type))
