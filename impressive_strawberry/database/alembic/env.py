@@ -1,4 +1,3 @@
-from logging.config import fileConfig
 from os import environ
 
 import dotenv
@@ -11,7 +10,6 @@ dotenv.load_dotenv(".env")
 dotenv.load_dotenv(".env.local")
 
 config = context.config
-fileConfig(config.config_file_name)
 target_metadata = Base.metadata
 
 
