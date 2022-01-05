@@ -27,8 +27,6 @@ class TestApplicationCreate:
         body = {
             "name": "Closure Industries Bot",
             "description": "A bot for achievements in a warpgate-based game.",
-            "webhook_url": "https://example.org/closure",
-            "webhook_type": "STRAWBERRY",
         }
 
         response = await client.post("/api/application/v1/", json=body, headers={
