@@ -18,4 +18,4 @@ FROM package AS environment
 ENV PYTHONUNBUFFERED=1
 
 FROM environment AS entrypoint
-ENTRYPOINT ["python", "-m", "impressive_strawberry.web"]
+ENTRYPOINT ["poetry", "run", "python", "-m", "impressive_strawberry.web"]
