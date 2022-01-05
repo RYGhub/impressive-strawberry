@@ -17,6 +17,11 @@ services:
   impressive:
     image: ghcr.io/ryghub/impressive-strawberry
     restart: always
+    ports:
+      - "30074:80"
+    depends_on:
+      - db
     environment:
       IS_DB_URI: postgresql://postgres:password@db/impressive_strawberry
       IS_WEB_PORT: 80
+      IS_SECRET: "CHANGE-ME"
