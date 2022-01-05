@@ -179,27 +179,27 @@ jobs:
           
           tag=${{ github.event.release.tag_name }}
           echo "Tag is: $tag"
-          test -n $tag
+          test -n "$tag"
           echo "::set-output name=tag::$tag"
           
-          full=$( echo $tag | grep -E --only-matching --max-count=1 '[0-9]+[.][0-9]+[.][0-9]+(-.*)?' )
+          full=$( echo $tag | grep -E --only-matching --max-count=1 '[0-9]+[.][0-9]+[.][0-9]+(-.*)?$' )
           echo "Full version is: $full"
-          test -n $full
+          test -n "$full"
           echo "::set-output name=full::$full"
           
-          patch=$( echo $full | grep -E --only-matching --max-count=1 '[0-9]+[.][0-9]+[.][0-9]+' )
+          patch=$( echo $full | grep -E --only-matching --max-count=1 '^[0-9]+[.][0-9]+[.][0-9]+' )
           echo "Patch version is: $patch"
-          test -n $patch
+          test -n "$patch"
           echo "::set-output name=patch::$patch"
           
-          minor=$( echo $patch | grep -E --only-matching --max-count=1 '[0-9]+[.][0-9]+' )
+          minor=$( echo $patch | grep -E --only-matching --max-count=1 '^[0-9]+[.][0-9]+' )
           echo "Minor version is: $minor"
-          test -n $minor
+          test -n "$minor"
           echo "::set-output name=minor::$minor"
           
-          major=$( echo $minor | grep -E --only-matching --max-count=1 '[0-9]+' )
+          major=$( echo $minor | grep -E --only-matching --max-count=1 '^[0-9]+' )
           echo "Major version is: $major"
-          test -n $major
+          test -n "$major"
           echo "::set-output name=major::$major"
 
       - name: "🔨 Setup Buildx"
