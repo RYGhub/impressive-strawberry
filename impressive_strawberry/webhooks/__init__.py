@@ -8,10 +8,11 @@ __all__ = (
 )
 
 module_map = {
-    tables.WebhookType.STRAWBERRY: strawberry,
-    tables.WebhookType.DISCORD: discord,
+    tables.WebhookKind.STRAWBERRY: strawberry,
+    tables.WebhookKind.DISCORD: discord,
 }
 
 
-async def notify_unlock(application: tables.Application, unlock: tables.Unlock) -> None:
-    return await module_map[application.webhook_type].notify_unlock(url=application.webhook_url, unlock=unlock)
+async def notify_unlock(group: tables.Group, unlock: tables.Unlock) -> None:
+    for webhook in group.webhooks:
+        await module_map[webhook.kind].notify_unlock(url=webhook.url, unlock=unlock)

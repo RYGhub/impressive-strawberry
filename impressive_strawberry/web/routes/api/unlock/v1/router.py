@@ -33,14 +33,13 @@ token_router = fastapi.routing.APIRouter(
 async def unlock_create(
         *,
         session: Session = fastapi.Depends(deps.dep_dbsession),
-        application: tables.Application = fastapi.Depends(deps.dep_application_this),
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
         user: tables.User = fastapi.Depends(deps.dep_user_thisapp),
 ):
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock()
     unlock = crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
-    await notify_unlock(application=application, unlock=unlock)
+    await notify_unlock(group=achievement.group, unlock=unlock)
     return unlock
 
 
@@ -73,5 +72,5 @@ async def direct_unlock_create(
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock()
     unlock = crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
-    await notify_unlock(application=achievement.group.application, unlock=unlock)
+    await notify_unlock(group=achievement.group, unlock=unlock)
     return unlock

@@ -9,7 +9,7 @@ pytestmark = pytest.mark.asyncio
 
 class TestUnlockCreate:
     async def test_success(self, mocker: pytest_mock.MockerFixture, authenticated_client: httpx.AsyncClient, application: tables.Application,
-                           achievement: tables.Achievement, user: tables.User):
+                           achievement: tables.Achievement, user: tables.User, webhook: tables.Webhook):
         true_post = authenticated_client.post
         webhook_post = mocker.AsyncMock()
         mocker.patch("httpx.AsyncClient.post", webhook_post)
@@ -22,7 +22,7 @@ class TestUnlockCreate:
             })
         assert response.status_code == 201
         assert webhook_post.call_count == 1
-        assert webhook_post.call_args.args[0] == application.webhook_url  # ?
+        assert webhook_post.call_args.args[0] == webhook.url  # ?
         assert webhook_post.call_args.kwargs["json"].items() >= {
             "achievement_id": achievement.id,
             "user_id": user.id,
@@ -45,7 +45,7 @@ class TestUnlockDelete:
 
 class TestDirectUnlockCreate:
     async def test_success(self, mocker: pytest_mock.MockerFixture, client: httpx.AsyncClient, application: tables.Application, achievement: tables.Achievement,
-                           user: tables.User):
+                           user: tables.User, webhook: tables.Webhook):
         true_post = client.post
         webhook_post = mocker.AsyncMock()
         mocker.patch("httpx.AsyncClient.post", webhook_post)
@@ -56,7 +56,7 @@ class TestDirectUnlockCreate:
         })
         assert response.status_code == 201
         assert webhook_post.call_count == 1
-        assert webhook_post.call_args.args[0] == application.webhook_url  # ?
+        assert webhook_post.call_args.args[0] == webhook.url  # ?
         assert webhook_post.call_args.kwargs["json"].items() >= {
             "achievement_id": achievement.id,
             "user_id": user.id,

@@ -6,6 +6,7 @@ from impressive_strawberry.web.models import edit
 __all__ = (
     "ApplicationRead",
     "GroupRead",
+    "WebhookRead",
     "AchievementRead",
     "UnlockRead",
     "UserRead",
@@ -44,6 +45,24 @@ class GroupRead(edit.GroupEdit):
                 **edit.GroupEdit.Config.schema_extra["example"],
                 "id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
                 "application_id": "971851d4-b41f-46e1-a884-5b5e84a276f8",
+            },
+        }
+
+
+class WebhookRead(edit.WebhookEdit):
+    """
+    **Read** model for :class:`.database.tables.Webhook`.
+    """
+
+    id: UUID
+    group_id: UUID
+
+    class Config(edit.GroupEdit.Config):
+        schema_extra = {
+            "example": {
+                **edit.WebhookEdit.Config.schema_extra["example"],
+                "id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
+                "group_id": "70fd1bf3-69dd-4cde-9d41-42368221849f",
             },
         }
 

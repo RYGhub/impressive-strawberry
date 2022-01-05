@@ -1,14 +1,13 @@
 import typing as t
 from uuid import UUID
 
-from pydantic import HttpUrl
-
 from impressive_strawberry.database import tables
 from impressive_strawberry.web.models import base
 
 __all__ = (
     "ApplicationEdit",
     "GroupEdit",
+    "WebhookEdit",
     "AchievementEdit",
     "UnlockEdit",
     "UserEdit",
@@ -22,16 +21,12 @@ class ApplicationEdit(base.StrawberryORMModel):
 
     name: str
     description: str
-    webhook_url: HttpUrl
-    webhook_type: tables.WebhookType
 
     class Config(base.StrawberryORMModel.Config):
         schema_extra = {
             "example": {
                 "name": "Strawberry Bot",
                 "description": "A bot to integrate achievements in Discord servers.",
-                "webhook_url": "https://discord.com/api/webhooks/123123123123123123/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                "webhook_type": "DISCORD",
             },
         }
 
@@ -47,6 +42,23 @@ class GroupEdit(base.StrawberryORMModel):
         schema_extra = {
             "example": {
                 "crystal": "176353500710699008",
+            },
+        }
+
+
+class WebhookEdit(base.StrawberryORMModel):
+    """
+    **Edit** model for :class:`.database.tables.Webhook`.
+    """
+
+    url: str
+    kind: tables.WebhookKind
+
+    class Config(base.StrawberryORMModel.Config):
+        schema_extra = {
+            "example": {
+                "url": "https://discord.com/api/webhooks/127341784618319238/aisjdhgiuaehrtguieagrhudeighsudfgjniawpretiuhasdgfjasdiopguiahrejsah",
+                "kind": "DISCORD",
             },
         }
 

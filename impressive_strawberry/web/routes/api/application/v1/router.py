@@ -29,7 +29,7 @@ async def application_create(
         session: Session = fastapi.Depends(deps.dep_dbsession)
 ):
     return crud.quick_create(session,
-                             tables.Application(name=data.name, description=data.description, webhook_url=data.webhook_url, webhook_type=data.webhook_type))
+                             tables.Application(name=data.name, description=data.description))
 
 
 @router.get(

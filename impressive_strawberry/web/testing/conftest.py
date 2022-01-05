@@ -57,8 +57,6 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
         name="Test Application",
         description="An application used to perform tests.",
         token="TEST-123",
-        webhook_url="https://example.org/testapp",
-        webhook_type="STRAWBERRY",
     )
     session.add(a)
     session.commit()
@@ -117,6 +115,25 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
 
     try:
         session.delete(a)
+        session.commit()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")
+
+
+@pytest.fixture(scope="function")
+def webhook(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Webhook:
+    w = tables.Webhook(
+        url="https://example.org/testapp",
+        kind=tables.WebhookKind.STRAWBERRY,
+        group=group,
+    )
+    session.add(w)
+    session.commit()
+
+    yield w
+
+    try:
+        session.delete(w)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")
