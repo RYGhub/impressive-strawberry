@@ -25,3 +25,4 @@ services:
       IS_DB_URI: postgresql://postgres:password@db/impressive_strawberry
       IS_WEB_PORT: 80
       IS_SECRET: "CHANGE-ME"
+      CORS_ALLOW_ORIGINS: "https://strawberry.ryg.one"
