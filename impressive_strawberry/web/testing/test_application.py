@@ -11,8 +11,6 @@ class TestApplicationCreate:
         body = {
             "name": "Closure Industries Bot",
             "description": "A bot for achievements in a warpgate-based game.",
-            "webhook_url": "https://example.org/closure",
-            "webhook_type": "STRAWBERRY",
         }
 
         response = await client.post("/api/application/v1/", json=body)
@@ -29,8 +27,6 @@ class TestApplicationCreate:
         body = {
             "name": "Closure Industries Bot",
             "description": "A bot for achievements in a warpgate-based game.",
-            "webhook_url": "https://example.org/closure",
-            "webhook_type": "STRAWBERRY",
         }
 
         response = await client.post("/api/application/v1/", json=body, headers={
@@ -93,8 +89,6 @@ class TestApplicationThisRetrieve:
             "name": application.name,
             "description": application.description,
             "token": application.token,
-            "webhook_url": application.webhook_url,
-            "webhook_type": application.webhook_type,
         }.items()
 
     async def test_missing_auth(self, client: httpx.AsyncClient):
@@ -113,15 +107,13 @@ class TestApplicationThisUpdate:
         body = {
             "name": application.name,
             "description": application.description,
-            "webhook_url": application.webhook_url,
-            "webhook_type": "DISCORD",
         }
 
         response = await authenticated_client.put("/api/application/v1/this", json=body)
         assert response.status_code == 200
 
         data = response.json()
-        assert data["webhook_type"] == "DISCORD"
+        assert data.items() >= body.items()
 
 
 class TestApplicationThisDelete:

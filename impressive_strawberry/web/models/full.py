@@ -53,6 +53,22 @@ class GroupFull(read.GroupRead):
         }
 
 
+class WebhookFull(read.WebhookRead):
+    """
+    **Full** model (with expanded relationships) for :class:`.database.tables.Webhook`.
+    """
+
+    group: read.GroupRead
+
+    class Config(read.AchievementRead.Config):
+        schema_extra = {
+            "example": {
+                **read.WebhookRead.Config.schema_extra["example"],
+                "group": read.GroupRead.Config.schema_extra["example"],
+            },
+        }
+
+
 class AchievementFull(read.AchievementRead):
     """
     **Full** model (with expanded relationships) for :class:`.database.tables.Achievement`.

@@ -15,9 +15,10 @@ from sqlalchemy.orm import relationship
 __all__ = (
     "Base",
     "Alloy",
-    "WebhookType",
+    "WebhookKind",
     "Application",
     "Group",
+    "Webhook",
     "Achievement",
     "Unlock",
     "User",
@@ -41,7 +42,7 @@ class Alloy(str, enum.Enum):
     "A rare :class:`.Achievement`."
 
 
-class WebhookType(str, enum.Enum):
+class WebhookKind(str, enum.Enum):
     """
     The type of the output format of webhooks.
     """
@@ -64,8 +65,6 @@ class Application(Base):
     name = Column(String, nullable=False)
     description = Column(Text, nullable=False, default="")
     token = Column(String, nullable=False, default=secrets.token_urlsafe)
-    webhook_url = Column(String, nullable=False)
-    webhook_type = Column(Enum(WebhookType), nullable=False, server_default="STRAWBERRY")
 
     groups = relationship("Group", back_populates="application", cascade="all, delete-orphan")
     users = relationship("User", back_populates="application", cascade="all, delete-orphan")
@@ -97,9 +96,25 @@ class Group(Base):
 
     application = relationship("Application", back_populates="groups")
     achievements = relationship("Achievement", back_populates="group", cascade="all, delete-orphan")
+    webhooks = relationship("Webhook", back_populates="group", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Group id={self.id} crystal={self.crystal}>"
+
+
+class Webhook(Base):
+    """
+    A :class:`.Webhook` represents an URL to which updates relative to a certain :class:`.Group` should be sent, using the format specified by the :class:`.WebhookType`.
+    """
+
+    __tablename__ = "webhooks"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    group_id = Column(UUID(as_uuid=True), ForeignKey("groups.id"), nullable=False)
+    url = Column(String, nullable=False)
+    kind = Column(Enum(WebhookKind), nullable=False)
+
+    group = relationship("Group", back_populates="webhooks")
 
 
 class Achievement(Base):

@@ -9,6 +9,7 @@ from .group import *
 from .impressive import *
 from .unlock import *
 from .user import *
+from .webhook import *
 
 __all__ = (
     "achievement",
@@ -17,5 +18,6 @@ __all__ = (
     "group",
     "user",
     "unlock",
+    "webhook",
     "impressive",
 )
