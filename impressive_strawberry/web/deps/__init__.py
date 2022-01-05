@@ -6,6 +6,7 @@ from .achievement import *
 from .application import *
 from .database import *
 from .group import *
+from .impressive import *
 from .unlock import *
 from .user import *
 from .webhook import *
@@ -18,4 +19,5 @@ __all__ = (
     "user",
     "unlock",
     "webhook",
+    "impressive",
 )

@@ -7,7 +7,7 @@ pytestmark = pytest.mark.asyncio
 
 
 class TestApplicationCreate:
-    async def test_success(self, client: httpx.AsyncClient):
+    async def test_success_without_secret(self, client: httpx.AsyncClient, impressive_secret_unset: None):
         body = {
             "name": "Closure Industries Bot",
             "description": "A bot for achievements in a warpgate-based game.",
@@ -23,11 +23,56 @@ class TestApplicationCreate:
         assert data["groups"] == []
         assert data["users"] == []
 
-    async def test_missing_body(self, client: httpx.AsyncClient):
+    async def test_success_with_secret(self, client: httpx.AsyncClient, impressive_secret: str):
+        body = {
+            "name": "Closure Industries Bot",
+            "description": "A bot for achievements in a warpgate-based game.",
+            "webhook_url": "https://example.org/closure",
+            "webhook_type": "STRAWBERRY",
+        }
+
+        response = await client.post("/api/application/v1/", json=body, headers={
+            "Authorization": f"Secret {impressive_secret}"
+        })
+        assert response.status_code == 201
+
+        data = response.json()
+        assert data.items() >= body.items()
+        assert "id" in data
+        assert "token" in data
+        assert data["groups"] == []
+        assert data["users"] == []
+
+    async def test_missing_secret(self, client: httpx.AsyncClient, impressive_secret: str):
+        response = await client.post("/api/application/v1/")
+        assert response.status_code == 401
+
+        data = response.json()
+        assert data["error_code"] == "MISSING_AUTH_HEADER"
+
+    async def test_invalid_secret(self, client: httpx.AsyncClient, impressive_secret: str):
+        response = await client.post("/api/application/v1/", headers={
+            "Authorization": "asjduisjfisdjgfiasj",
+        })
+        assert response.status_code == 401
+
+        data = response.json()
+        assert data["error_code"] == "INVALID_AUTH_HEADER"
+
+    async def test_wrong_secret(self, client: httpx.AsyncClient, impressive_secret: str):
+        response = await client.post("/api/application/v1/", headers={
+            "Authorization": "Secret xyzzy",
+        })
+        assert response.status_code == 401
+
+        data = response.json()
+        assert data["error_code"] == "WRONG_AUTH_HEADER"
+
+    async def test_missing_body(self, client: httpx.AsyncClient, impressive_secret_unset: None):
         response = await client.post("/api/application/v1/")
         assert response.status_code == 422
 
-    async def test_invalid_body(self, client: httpx.AsyncClient):
+    async def test_invalid_body(self, client: httpx.AsyncClient, impressive_secret_unset: None):
         body = {
             "name": "Failure App",
         }

@@ -1,4 +1,5 @@
 import logging
+import os
 import uuid
 
 import dotenv
@@ -173,3 +174,23 @@ def unlock(session: sqlalchemy.orm.Session, user: tables.User, achievement: tabl
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
         log.warning(f"The row belonging to the object was deleted before teardown.")
+
+
+@pytest.fixture(scope="function")
+def impressive_secret():
+    previous_value = os.environ["IS_SECRET"]
+    new_value = "qwerty"
+
+    os.environ["IS_SECRET"] = new_value
+    yield new_value
+    os.environ["IS_SECRET"] = previous_value
+
+
+@pytest.fixture(scope="function")
+def impressive_secret_unset():
+    previous_value = os.environ["IS_SECRET"]
+    new_value = ""
+
+    os.environ["IS_SECRET"] = new_value
+    yield new_value
+    os.environ["IS_SECRET"] = previous_value
