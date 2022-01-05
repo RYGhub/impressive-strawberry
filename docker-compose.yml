@@ -18,7 +18,10 @@ services:
     image: ghcr.io/ryghub/impressive-strawberry
     restart: always
     ports:
-      - "30074:80"
+      - target: 80
+        published: 30074
+        protocol: tcp
+        mode: host
     depends_on:
       - db
     environment:
