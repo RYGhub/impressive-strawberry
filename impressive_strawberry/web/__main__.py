@@ -25,4 +25,4 @@ app.add_middleware(
 )
 log.info("Running impressive_strawberry with Uvicorn...")
 # noinspection PyTypeChecker
-uvicorn.run(app, port=int(os.environ["IS_WEB_PORT"]))
+uvicorn.run(app, port=int(os.environ["IS_WEB_PORT"]), host=os.environ["IS_WEB_HOST"])
