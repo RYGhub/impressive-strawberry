@@ -32,7 +32,7 @@ class StrawberryException(Exception):
 
     @classmethod
     def to_response(cls) -> fastapi.Response:
-        return fastapi.Response(content=cls.to_model().json(), status_code=cls.STATUS_CODE)
+        return fastapi.Response(content=cls.to_model().json(), status_code=cls.STATUS_CODE, media_type="application/json")
 
 
 class MissingAuthHeader(StrawberryException):
