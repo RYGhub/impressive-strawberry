@@ -1,4 +1,5 @@
 import httpx
+
 from impressive_strawberry.database import tables
 
 alloy_emoji = {
@@ -14,6 +15,7 @@ async def notify_unlock(url: str, unlock: tables.Unlock) -> None:
     }
 
     # Send the post request
-    response: httpx.Response = await httpx.post(url, params={"wait": True}, json=json)
+    async with httpx.AsyncClient() as c:
+        response: httpx.Response = await c.post(url, params={"wait": True}, json=json)
     # Raise if the request fails
     response.raise_for_status()
