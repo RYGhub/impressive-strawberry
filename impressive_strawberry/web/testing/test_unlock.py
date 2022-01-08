@@ -7,10 +7,10 @@ from impressive_strawberry.database import tables
 pytestmark = pytest.mark.asyncio
 
 
-class TestUnlockList:
+class TestGroupUnlockList:
     async def test_success(self, authenticated_client: httpx.AsyncClient, group: tables.Group, user: tables.User, achievement: tables.Achievement,
                            unlock: tables.Unlock):
-        response = await authenticated_client.get("/api/unlock/v1/", params={
+        response = await authenticated_client.get("/api/unlock-group/v1/", params={
             "group": group.id,
             "user": user.id,
         })

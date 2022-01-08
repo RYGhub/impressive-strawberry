@@ -17,6 +17,13 @@ app_router = fastapi.routing.APIRouter(
     ],
 )
 
+group_router = fastapi.routing.APIRouter(
+    prefix="/api/unlock-group/v1",
+    tags=[
+        "Unlock v1",
+    ]
+)
+
 token_router = fastapi.routing.APIRouter(
     prefix="/api/unlock-direct/v1",
     tags=[
@@ -25,12 +32,12 @@ token_router = fastapi.routing.APIRouter(
 )
 
 
-@app_router.get(
+@group_router.get(
     "/",
     summary="List unlocked achievements obtained by a certain user in a certain group, both belonging to the same application you're authenticating as.",
     response_model=list[models.full.UnlockFull],
 )
-async def unlock_list(
+async def group_unlock_list(
         *,
         session: Session = fastapi.Depends(deps.dep_dbsession),
         group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
