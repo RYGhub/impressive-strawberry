@@ -7,6 +7,22 @@ from impressive_strawberry.database import tables
 pytestmark = pytest.mark.asyncio
 
 
+class TestUnlockList:
+    async def test_success(self, authenticated_client: httpx.AsyncClient, group: tables.Group, user: tables.User, achievement: tables.Achievement,
+                           unlock: tables.Unlock):
+        response = await authenticated_client.get("/api/unlock/v1/", params={
+            "group": group.id,
+            "user": user.id,
+        })
+        assert response.status_code == 200
+        data = response.json()
+        assert len(data) == 1
+        obj = data[0]
+        assert "timestamp" in obj
+        assert obj["achievement_id"] == str(achievement.id)
+        assert obj["user_id"] == str(user.id)
+
+
 class TestUnlockCreate:
     async def test_success(self, mocker: pytest_mock.MockerFixture, authenticated_client: httpx.AsyncClient, application: tables.Application,
                            achievement: tables.Achievement, user: tables.User, webhook: tables.Webhook):
