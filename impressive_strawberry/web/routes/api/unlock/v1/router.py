@@ -1,5 +1,6 @@
 import fastapi.routing
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import select
 
 from impressive_strawberry.database import tables
 from impressive_strawberry.web import crud
@@ -16,12 +17,36 @@ app_router = fastapi.routing.APIRouter(
     ],
 )
 
+group_router = fastapi.routing.APIRouter(
+    prefix="/api/unlock-group/v1",
+    tags=[
+        "Unlock v1",
+    ]
+)
+
 token_router = fastapi.routing.APIRouter(
     prefix="/api/unlock-direct/v1",
     tags=[
         "Unlock v1",
     ]
 )
+
+
+@group_router.get(
+    "/",
+    summary="List unlocked achievements obtained by a certain user in a certain group, both belonging to the same application you're authenticating as.",
+    response_model=list[models.full.UnlockFull],
+)
+async def group_unlock_list(
+        *,
+        session: Session = fastapi.Depends(deps.dep_dbsession),
+        group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
+        user: tables.User = fastapi.Depends(deps.dep_user_thisapp),
+):
+    data = session.execute(
+        select(tables.Unlock).where(tables.Unlock.user == user).join(tables.Achievement).where(tables.Achievement.group == group)
+    ).all()
+    return list(map(lambda d: d[0], data))
 
 
 @app_router.post(
