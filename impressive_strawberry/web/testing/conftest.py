@@ -68,7 +68,7 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
         session.delete(a)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
-        log.warning(f"The row belonging to the object was deleted before teardown.")
+        log.warning("The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
@@ -94,7 +94,7 @@ def group(session: sqlalchemy.orm.Session, application: tables.Application) -> t
         session.delete(g)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
-        log.warning(f"The row belonging to the object was deleted before teardown.")
+        log.warning("The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
@@ -118,7 +118,7 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
         session.delete(a)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
-        log.warning(f"The row belonging to the object was deleted before teardown.")
+        log.warning("The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
@@ -137,7 +137,7 @@ def webhook(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Webh
         session.delete(w)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
-        log.warning(f"The row belonging to the object was deleted before teardown.")
+        log.warning("The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
@@ -155,7 +155,7 @@ def user(session: sqlalchemy.orm.Session, application: tables.Application) -> ta
         session.delete(u)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
-        log.warning(f"The row belonging to the object was deleted before teardown.")
+        log.warning("The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
@@ -173,7 +173,7 @@ def unlock(session: sqlalchemy.orm.Session, user: tables.User, achievement: tabl
         session.delete(u)
         session.commit()
     except sqlalchemy.orm.exc.ObjectDeletedError as e:
-        log.warning(f"The row belonging to the object was deleted before teardown.")
+        log.warning("The row belonging to the object was deleted before teardown.")
 
 
 @pytest.fixture(scope="function")
