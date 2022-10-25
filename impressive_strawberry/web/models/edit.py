@@ -87,6 +87,7 @@ class AchievementEdit(base.StrawberryORMModel):
                 "secret": False,
                 "icon": None,
                 "repeatable": False,
+                "unlockable": True,
                 "crystal": "my-first-achievement"
             },
         }
