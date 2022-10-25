@@ -14,7 +14,7 @@ class TestAchievementList:
         data = response.json()
         assert len(data) == 2
 
-        assert any(
+        assert any(map(
             lambda obj: obj.items() >= {
                 "name": "Test Achievement",
                 "description": "Achievement unlocked when testing achievement unlocks.",
@@ -26,7 +26,7 @@ class TestAchievementList:
                 "crystal": "test",
             }.items(),
             data
-        )
+        ))
     
     async def test_success_unlockable_true(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, achievement_not_unlockable: tables.Achievement):
         response = await authenticated_client.get("/api/achievement/v1/", params={"group": "test", "filter_unlockable": True})
@@ -35,7 +35,7 @@ class TestAchievementList:
         data = response.json()
         assert len(data) == 1
 
-        assert any(
+        assert any(map(
             lambda obj: obj.items() >= {
                 "name": "Test Achievement",
                 "description": "Achievement unlocked when testing achievement unlocks.",
@@ -47,7 +47,7 @@ class TestAchievementList:
                 "crystal": "test",
             }.items(),
             data
-        )
+        ))
     
     async def test_success_unlockable_false(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, achievement_not_unlockable: tables.Achievement):
         response = await authenticated_client.get("/api/achievement/v1/", params={"group": "test", "filter_unlockable": False})
@@ -56,7 +56,7 @@ class TestAchievementList:
         data = response.json()
         assert len(data) == 1
 
-        assert any(
+        assert any(map(
             lambda obj: obj.items() >= {
                 "name": "Ununlockable Achievement",
                 "description": "Achievement not available.",
@@ -68,7 +68,7 @@ class TestAchievementList:
                 "crystal": "testlock",
             }.items(),
             data
-        )
+        ))
 
 
 class TestAchievementRetrieve:
