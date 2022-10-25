@@ -7,23 +7,68 @@ pytestmark = pytest.mark.asyncio
 
 
 class TestAchievementList:
-    async def test_success(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement):
+    async def test_success_all(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, achievement_not_unlockable: tables.Achievement):
         response = await authenticated_client.get("/api/achievement/v1/", params={"group": "test"})
+        assert response.status_code == 200
+
+        data = response.json()
+        assert len(data) == 2
+
+        assert any(
+            lambda obj: obj.items() >= {
+                "name": "Test Achievement",
+                "description": "Achievement unlocked when testing achievement unlocks.",
+                "alloy": "BRONZE",
+                "secret": False,
+                "icon": None,
+                "unlockable": True,
+                "repeatable": False,
+                "crystal": "test",
+            }.items(),
+            data
+        )
+    
+    async def test_success_unlockable_true(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, achievement_not_unlockable: tables.Achievement):
+        response = await authenticated_client.get("/api/achievement/v1/", params={"group": "test", "filter_unlockable": True})
         assert response.status_code == 200
 
         data = response.json()
         assert len(data) == 1
 
-        obj = data[0]
-        assert obj.items() >= {
-            "name": "Test Achievement",
-            "description": "Achievement unlocked when testing achievement unlocks.",
-            "alloy": "BRONZE",
-            "secret": False,
-            "icon": None,
-            "repeatable": False,
-            "crystal": "test",
-        }.items()
+        assert any(
+            lambda obj: obj.items() >= {
+                "name": "Test Achievement",
+                "description": "Achievement unlocked when testing achievement unlocks.",
+                "alloy": "BRONZE",
+                "secret": False,
+                "icon": None,
+                "unlockable": True,
+                "repeatable": False,
+                "crystal": "test",
+            }.items(),
+            data
+        )
+    
+    async def test_success_unlockable_false(self, authenticated_client: httpx.AsyncClient, achievement: tables.Achievement, achievement_not_unlockable: tables.Achievement):
+        response = await authenticated_client.get("/api/achievement/v1/", params={"group": "test", "filter_unlockable": False})
+        assert response.status_code == 200
+
+        data = response.json()
+        assert len(data) == 1
+
+        assert any(
+            lambda obj: obj.items() >= {
+                "name": "Ununlockable Achievement",
+                "description": "Achievement not available.",
+                "alloy": "GOLD",
+                "secret": False,
+                "icon": None,
+                "unlockable": False,
+                "repeatable": False,
+                "crystal": "testlock",
+            }.items(),
+            data
+        )
 
 
 class TestAchievementRetrieve:
