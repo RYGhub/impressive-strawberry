@@ -69,3 +69,9 @@ class DuplicatingUnrepeatableUnlock(StrawberryException):
     STATUS_CODE = 406
     ERROR_CODE = "DUPLICATING_UNLOCK"
     REASON = "The achievement has already been unlocked by the user and its not repeatable."
+
+
+class NotUnlockable(StrawberryException):
+    STATUS_CODE = 406
+    ERROR_CODE = "NOT_UNLOCKABLE"
+    REASON = "The achievement has the unlockable property set to false, so it cannot be unlocked. If this is not intended, it can be changed."
