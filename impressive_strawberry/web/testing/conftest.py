@@ -105,6 +105,7 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
         alloy=tables.Alloy.BRONZE,
         secret=False,
         icon=None,
+        unlockable=True,
         repeatable=False,
         group=group,
         crystal="test",
