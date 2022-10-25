@@ -22,9 +22,14 @@ router = fastapi.routing.APIRouter(
 )
 async def achievement_list(
         *,
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
+        filter_unlockable: t.Optional[bool] = fastapi.Query(None),
 ):
-    return group.achievements
+    if filter_unlockable is not None: 
+        return crud.quick_retrieve(session, tables.Achievement, group=group, unlockable=filter_unlockable)
+    else:
+        return group.achievements
 
 
 @router.get(
