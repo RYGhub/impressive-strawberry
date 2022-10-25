@@ -123,6 +123,31 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
 
 
 @pytest.fixture(scope="function")
+def achievement_not_unlockable(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Achievement:
+    a = tables.Achievement(
+        name="Ununlockable Achievement",
+        description="Achievement not available.",
+        alloy=tables.Alloy.GOLD,
+        secret=False,
+        icon=None,
+        unlockable=False,
+        repeatable=False,
+        group=group,
+        crystal="testlock",
+    )
+    session.add(a)
+    session.commit()
+
+    yield a
+
+    try:
+        session.delete(a)
+        session.commit()
+    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+        log.warning(f"The row belonging to the object was deleted before teardown.")
+
+
+@pytest.fixture(scope="function")
 def webhook(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Webhook:
     w = tables.Webhook(
         url="https://example.org/testapp",
