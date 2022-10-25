@@ -74,6 +74,7 @@ class AchievementEdit(base.StrawberryORMModel):
     secret: bool
     icon: t.Optional[str]
     repeatable: bool
+    obtainable: bool
     crystal: str
 
     class Config(base.StrawberryORMModel.Config):
