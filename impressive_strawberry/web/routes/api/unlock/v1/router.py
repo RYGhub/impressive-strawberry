@@ -7,7 +7,7 @@ from impressive_strawberry.web import crud
 from impressive_strawberry.web import deps
 from impressive_strawberry.web import models
 from impressive_strawberry.web import responses
-from impressive_strawberry.web.errors import DuplicatingUnrepeatableUnlock
+from impressive_strawberry.web.errors import DuplicatingUnrepeatableUnlock, NotUnlockable
 from impressive_strawberry.webhooks import notify_unlock
 
 app_router = fastapi.routing.APIRouter(
@@ -61,6 +61,8 @@ async def unlock_create(
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_thisapp),
         user: tables.User = fastapi.Depends(deps.dep_user_thisapp),
 ):
+    if not achievement.unlockable:
+        raise NotUnlockable()
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock()
     unlock = crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
@@ -94,6 +96,8 @@ async def direct_unlock_create(
         achievement: tables.Achievement = fastapi.Depends(deps.dep_achievement_token),
         user: tables.User = fastapi.Depends(deps.dep_user_token)
 ):
+    if not achievement.unlockable:
+        raise NotUnlockable()
     if achievement in [u.achievement for u in user.unlocks] and not achievement.repeatable:
         raise DuplicatingUnrepeatableUnlock()
     unlock = crud.quick_create(session, tables.Unlock(achievement_id=achievement.id, user_id=user.id))
