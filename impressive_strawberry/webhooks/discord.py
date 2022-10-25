@@ -3,9 +3,9 @@ import httpx
 from impressive_strawberry.database import tables
 
 alloy_emoji = {
-    tables.Alloy.BRONZE: "🥉",
-    tables.Alloy.SILVER: "🥈",
-    tables.Alloy.GOLD: "🥇",
+    tables.Alloy.BRONZE: ":third_place:",
+    tables.Alloy.SILVER: ":second_place:",
+    tables.Alloy.GOLD: ":first_place:",
 }
 
 
