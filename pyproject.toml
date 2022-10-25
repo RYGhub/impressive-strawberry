@@ -170,7 +170,7 @@ pytest-asyncio = "^0.16.0"
 pytest-dotenv = "^0.5.2"
 pytest-mock = "^3.6.1"
 pytest-github-actions-annotate-failures = "^0.1.6"
-
+pylint = "^2.15.5"
 
 
 [tool.poetry.extras]
@@ -189,10 +189,6 @@ pytest-github-actions-annotate-failures = "^0.1.6"
 # ADVANCED: extend Poetry's functionality.
 # See: https://python-poetry.org/docs/pyproject/#plugins
 
-
-
-[tool.poetry.group.dev.dependencies]
-pylint = "^2.15.5"
 
 [tool.pytest.ini_options]
 #########################
