@@ -13,6 +13,13 @@ module_map = {
 }
 
 
-async def notify_unlock(group: tables.Group, unlock: tables.Unlock) -> None:
+async def notify_unlock(group: tables.Group, unlock: tables.Unlock) -> bool:
+    success = True
+
     for webhook in group.webhooks:
-        await module_map[webhook.kind].notify_unlock(url=webhook.url, unlock=unlock)
+        try:
+            await module_map[webhook.kind].notify_unlock(url=webhook.url, unlock=unlock)
+        except Exception:
+            success = False
+    
+    return success
