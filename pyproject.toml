@@ -6,7 +6,7 @@
 # Used when installing the package with `pip install .`.
 # See also: https://www.python.org/dev/peps/pep-0517/
 
-requires = ["poetry-core>=1.0.0"]
+requires = ["setuptools", "poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 
@@ -170,7 +170,7 @@ pytest-asyncio = "^0.16.0"
 pytest-dotenv = "^0.5.2"
 pytest-mock = "^3.6.1"
 pytest-github-actions-annotate-failures = "^0.1.6"
-
+pylint = "^2.15.5"
 
 
 [tool.poetry.extras]
@@ -189,10 +189,6 @@ pytest-github-actions-annotate-failures = "^0.1.6"
 # ADVANCED: extend Poetry's functionality.
 # See: https://python-poetry.org/docs/pyproject/#plugins
 
-
-
-[tool.poetry.group.dev.dependencies]
-pylint = "^2.15.5"
 
 [tool.pytest.ini_options]
 #########################
