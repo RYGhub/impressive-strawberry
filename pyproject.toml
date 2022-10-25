@@ -191,6 +191,9 @@ pytest-github-actions-annotate-failures = "^0.1.6"
 
 
 
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.15.5"
+
 [tool.pytest.ini_options]
 #########################
 # Pytest configuration  #
