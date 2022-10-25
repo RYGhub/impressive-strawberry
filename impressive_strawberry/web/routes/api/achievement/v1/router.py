@@ -1,4 +1,5 @@
 import fastapi.routing
+import typing as t
 from sqlalchemy.orm import Session
 
 from impressive_strawberry.database import tables
