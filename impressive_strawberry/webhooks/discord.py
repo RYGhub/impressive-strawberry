@@ -2,7 +2,7 @@ import httpx
 
 from impressive_strawberry.database import tables
 
-alloy_emoji = {
+ALLOY_EMOJI = {
     tables.Alloy.BRONZE: ":third_place:",
     tables.Alloy.SILVER: ":second_place:",
     tables.Alloy.GOLD: ":first_place:",
