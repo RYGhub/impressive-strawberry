@@ -6,7 +6,7 @@
 # Used when installing the package with `pip install .`.
 # See also: https://www.python.org/dev/peps/pep-0517/
 
-requires = ["poetry-core>=1.0.0"]
+requires = ["setuptools", "poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 
@@ -152,7 +152,6 @@ uvicorn = "^0.15.0"
 lazy-object-proxy = "^1.6.0"
 httpx = ">=0.21.1,<0.24.0"
 pytest-cov = "^3.0.0"
-setuptools = "^65.5.0"
 
 
 
