@@ -9,5 +9,7 @@
         "out/": true,
         "poetry.lock": true,
     },
-    "python.analysis.extraPaths": ["./impressive_strawberry"],
+    "python.analysis.extraPaths": [
+        "./impressive_strawberry",
+    ],
 }
