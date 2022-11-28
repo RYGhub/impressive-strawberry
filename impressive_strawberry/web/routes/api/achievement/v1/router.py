@@ -1,5 +1,7 @@
 import fastapi.routing
+import typing as t
 from sqlalchemy.orm import Session
+import sqlalchemy.sql as ss
 
 from impressive_strawberry.database import tables
 from impressive_strawberry.web import crud
@@ -22,9 +24,16 @@ router = fastapi.routing.APIRouter(
 )
 async def achievement_list(
         *,
+        session: Session = fastapi.Depends(deps.dep_dbsession),
         group: tables.Group = fastapi.Depends(deps.dep_group_thisapp),
+        filter_unlockable: t.Optional[bool] = fastapi.Query(None),
 ):
-    return group.achievements
+    if filter_unlockable is not None: 
+        return session.execute(
+            ss.select(tables.Achievement).filter_by(group=group, unlockable=filter_unlockable)
+        ).scalars().all()
+    else:
+        return group.achievements
 
 
 @router.get(

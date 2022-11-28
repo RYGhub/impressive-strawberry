@@ -1,4 +1,5 @@
 import typing as t
+import pydantic
 from uuid import UUID
 
 from impressive_strawberry.database import tables
@@ -74,6 +75,7 @@ class AchievementEdit(base.StrawberryORMModel):
     secret: bool
     icon: t.Optional[str]
     repeatable: bool
+    unlockable: bool = pydantic.Field(True)
     crystal: str
 
     class Config(base.StrawberryORMModel.Config):
@@ -85,6 +87,7 @@ class AchievementEdit(base.StrawberryORMModel):
                 "secret": False,
                 "icon": None,
                 "repeatable": False,
+                "unlockable": True,
                 "crystal": "my-first-achievement"
             },
         }

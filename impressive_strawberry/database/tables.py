@@ -137,6 +137,7 @@ class Achievement(Base):
     secret = Column(Boolean, nullable=False, default=False)
     icon = Column(String)
     repeatable = Column(Boolean, nullable=False, default=False)
+    unlockable = Column(Boolean, nullable=False, default=True)
     group_id = Column(UUID(as_uuid=True), ForeignKey("groups.id"), nullable=False)
 
     crystal = Column(String, nullable=False)

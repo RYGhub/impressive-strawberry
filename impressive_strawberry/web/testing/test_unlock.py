@@ -51,6 +51,27 @@ class TestUnlockCreate:
         }.items()
         assert "id" in data
         assert "timestamp" in data
+    
+    async def test_failure_not_unlockable(self, mocker: pytest_mock.MockerFixture, authenticated_client: httpx.AsyncClient, application: tables.Application,
+                           achievement_not_unlockable: tables.Achievement, user: tables.User, webhook: tables.Webhook):
+        true_post = authenticated_client.post
+        webhook_post = mocker.AsyncMock()
+        mocker.patch("httpx.AsyncClient.post", webhook_post)
+
+        response = await true_post(
+            "/api/unlock/v1/", params={
+                "group": achievement_not_unlockable.group.crystal,
+                "achievement": achievement_not_unlockable.crystal,
+                "user": user.crystal,
+            })
+        assert response.status_code == 406
+        assert webhook_post.call_count == 0
+
+        data = response.json()
+        assert data.items() >= {
+            "error_code": "NOT_UNLOCKABLE"
+        }.items()
+        assert "reason" in data
 
 
 class TestUnlockDelete:
@@ -85,3 +106,22 @@ class TestDirectUnlockCreate:
         }.items()
         assert "id" in data
         assert "timestamp" in data
+    
+    async def test_failure_not_unlockable(self, mocker: pytest_mock.MockerFixture, authenticated_client: httpx.AsyncClient, application: tables.Application,
+                           achievement_not_unlockable: tables.Achievement, user: tables.User, webhook: tables.Webhook):
+        true_post = authenticated_client.post
+        webhook_post = mocker.AsyncMock()
+        mocker.patch("httpx.AsyncClient.post", webhook_post)
+
+        response = await true_post("/api/unlock-direct/v1/", params={
+            "token": achievement_not_unlockable.token,
+            "user": user.crystal,
+        })
+        assert response.status_code == 406
+        assert webhook_post.call_count == 0
+
+        data = response.json()
+        assert data.items() >= {
+            "error_code": "NOT_UNLOCKABLE"
+        }.items()
+        assert "reason" in data
