@@ -67,7 +67,7 @@ def application(session: sqlalchemy.orm.Session) -> tables.Application:
     try:
         session.delete(a)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning("The row belonging to the object was deleted before teardown.")
 
 
@@ -93,7 +93,7 @@ def group(session: sqlalchemy.orm.Session, application: tables.Application) -> t
     try:
         session.delete(g)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning("The row belonging to the object was deleted before teardown.")
 
 
@@ -118,7 +118,7 @@ def achievement(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.
     try:
         session.delete(a)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning("The row belonging to the object was deleted before teardown.")
 
 
@@ -143,7 +143,7 @@ def achievement_not_unlockable(session: sqlalchemy.orm.Session, group: tables.Gr
     try:
         session.delete(a)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning(f"The row belonging to the object was deleted before teardown.")
 
 
@@ -162,7 +162,7 @@ def webhook(session: sqlalchemy.orm.Session, group: tables.Group) -> tables.Webh
     try:
         session.delete(w)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning("The row belonging to the object was deleted before teardown.")
 
 
@@ -180,7 +180,7 @@ def user(session: sqlalchemy.orm.Session, application: tables.Application) -> ta
     try:
         session.delete(u)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning("The row belonging to the object was deleted before teardown.")
 
 
@@ -198,7 +198,7 @@ def unlock(session: sqlalchemy.orm.Session, user: tables.User, achievement: tabl
     try:
         session.delete(u)
         session.commit()
-    except sqlalchemy.orm.exc.ObjectDeletedError as e:
+    except sqlalchemy.orm.exc.ObjectDeletedError:
         log.warning("The row belonging to the object was deleted before teardown.")
 
 

@@ -27,14 +27,17 @@ def build_spoiler_row(r: str) -> str:
     else:
         return ""
 
+
 def build_spoiler_description(s: str) -> str:
     return "\n".join(map(build_spoiler_row, s.split("\n")))
 
-def build_description(ach: tables.Achievement) -> None:
+
+def build_description(ach: tables.Achievement) -> str:
     if ach.secret:
         return build_spoiler_description(ach.description)
     else:
         return ach.description
+
 
 def build_obtainability_field(ach: tables.Achievement) -> dict:
     if ach.repeatable:
@@ -48,12 +51,14 @@ def build_obtainability_field(ach: tables.Achievement) -> dict:
         "inline": True,
     }
 
+
 def build_rarity_field(ach: tables.Achievement) -> dict:
     return {
         "name": "Rarity",
         "value": f"{ALLOY_EMOJI[ach.alloy]} {ALLOY_NAMES[ach.alloy]}",
         "inline": True,
     }
+
 
 def build_icon_thumbnail(ach: tables.Achievement) -> dict:
     if ach.icon:
@@ -64,6 +69,7 @@ def build_icon_thumbnail(ach: tables.Achievement) -> dict:
         }
     else:
         return {}
+
 
 def build_embed(ach: tables.Achievement) -> dict:
     return {
@@ -76,6 +82,7 @@ def build_embed(ach: tables.Achievement) -> dict:
         ],
         **build_icon_thumbnail(ach),
     }
+
 
 def build_notify_unlock_payload(unlock: tables.Unlock) -> dict:
     return {

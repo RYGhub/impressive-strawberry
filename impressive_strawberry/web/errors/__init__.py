@@ -14,6 +14,7 @@ __all__ = (
     "ResourceNotFound",
     "MultipleResultsFound",
     "DuplicatingUnrepeatableUnlock",
+    "NotUnlockable",
 )
 
 
