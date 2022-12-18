@@ -3,7 +3,7 @@ LABEL maintainer="Stefano Pigozzi <me@steffo.eu>"
 WORKDIR /usr/src/app
 
 FROM metadata AS poetry
-RUN pip install "poetry==1.1.12"
+RUN pip install "poetry==1.3.1"
 
 FROM poetry AS dependencies
 COPY pyproject.toml ./pyproject.toml
