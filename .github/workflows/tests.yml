@@ -5,10 +5,14 @@ on:
     branches:
       - main
       - master
+    paths:
+      - "impressive_strawberry/**"
   pull_request:
     branches:
       - main
       - master
+    paths:
+      - "impressive_strawberry/**"
   workflow_call:
 
 
@@ -51,6 +55,7 @@ jobs:
           poetry-version: "1.3.1"
 
       - name: "🔨 Setup Poetry Python environment"
+        id: pyenv
         uses: Steffo99/actions-poetry-deps@v0.2.5
 
       - name: "🧪 Run tests"
