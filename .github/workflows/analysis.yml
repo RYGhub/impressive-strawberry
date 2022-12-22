@@ -1,29 +1,11 @@
-﻿name: "Periodic analysis"
+﻿name: "Periodic quality and security analysis"
 
 on:
+  # Every monday at 09:23 UTC
   schedule:
-    # Change this in your project to a random time.
-    # Every monday at 15:54 UTC
-    - cron: "54 15 * * 1"
+    - cron: "23 9 * * 1"
+  workflow_dispatch:
 
 jobs:
   codeql:
-    name: "🔍 Perform CodeQL analysis"
-    runs-on: ubuntu-latest
-
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-
-    steps:
-      - name: "⬇️ Checkout repository"
-        uses: actions/checkout@v3
-
-      - name: "🔨 Initialize CodeQL"
-        uses: github/codeql-action/init@v2
-        with:
-          languages: python
-
-      - name: "🔍 Perform CodeQL analysis"
-        uses: github/codeql-action/analyze@v2
+    uses: Steffo99/.github/.github/workflows/quality-python-codeql.yml@main
