@@ -22,7 +22,7 @@ build-backend = "poetry.core.masonry.api"
 name = "impressive_strawberry"
 
 # The version of the package.
-version = "0.4.1"
+version = "0.4.2"
 
 # A brief, one-sentence description about your project.
 description = "Achievements-as-a-service"
@@ -49,13 +49,13 @@ readme = "README.md"
 
 # The URL of the project website.
 # Not the GitHub repository!
-homepage = "https://impressive-strawberry.ryg.one/"
+homepage = "https://strawberry.ryg.one/"
 
 # The URL of the project repository.
 repository = "https://github.com/RYGhub/impressive-strawberry/"
 
 # The URL of the project documentation location.
-documentation = "https://hub.ryg.one/impressive-strawberry/"
+# documentation = "https://hub.ryg.one/impressive-strawberry/"
 
 # Up to five keywords related to your project.
 # See also: https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#keywords
