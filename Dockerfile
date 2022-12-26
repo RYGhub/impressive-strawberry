@@ -1,5 +1,5 @@
 FROM python:3.10-alpine AS system
-RUN apt add --update --no-cache build-base python3-dev py-pip musl-dev libffi-dev openssl-dev postgresql-dev
+RUN apk add --update --no-cache build-base python3-dev py-pip musl-dev libffi-dev openssl-dev postgresql-dev
 RUN pip install --no-cache-dir "poetry==1.3.1"
 
 FROM system AS workdir
