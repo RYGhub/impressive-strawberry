@@ -5,14 +5,28 @@ volumes:
 
 services:
   db:
-    image: "postgres"
+    image: "postgres:14.2"
     restart: unless-stopped
-    volumes:
-      - "db_data:/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - "stack.env"
     environment:
+      PGUSER: "postgres"
+      PGPASSWORD: "password"
+      PGDATABASE: "impressive_strawberry"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "password"
       POSTGRES_DB: "impressive_strawberry"
+    volumes:
+      - "db_data:/var/lib/postgresql/data"
+    deploy:
+      resources:
+        limits:
+          memory: "64M"
 
   impressive:
     image: "ghcr.io/ryghub/impressive-strawberry:latest"
