@@ -20,4 +20,5 @@ ENV IS_WEB_HOST=0.0.0.0
 ENV IS_WEB_PORT=80
 
 FROM environment AS entrypoint
-ENTRYPOINT ["poetry", "run", "python", "-m", "impressive_strawberry.web"]
+ENTRYPOINT ["poetry", "run", "python", "-O", "-m"]
+CMD ["impressive_strawberry.web"]
