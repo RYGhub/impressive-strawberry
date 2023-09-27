@@ -1,6 +1,6 @@
 FROM python:3.11-alpine AS system
 RUN apk add --update --no-cache build-base python3-dev py-pip musl-dev libffi-dev openssl-dev postgresql-dev
-RUN pip install --no-cache-dir "poetry==1.3.1"
+RUN pip install --no-cache-dir "poetry==1.6.1"
 
 FROM system AS workdir
 WORKDIR /usr/src/app
