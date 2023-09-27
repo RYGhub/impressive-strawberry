@@ -1,5 +1,5 @@
 import typing as t
-import pydantic
+import pydantic.v1
 from uuid import UUID
 
 from impressive_strawberry.database import tables

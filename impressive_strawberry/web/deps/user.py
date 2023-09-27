@@ -17,7 +17,7 @@ __all__ = (
 def dep_user_thisapp(
         session: engine.Session = fastapi.Depends(dep_dbsession),
         application: tables.Application = fastapi.Depends(dep_application_this),
-        user: str = fastapi.Query(...),
+        user: str = fastapi.Path(...),
 ) -> tables.User:
     """
     Dependency which parses the ``user`` query parameter into a :class:`.tables.User`, trying to parse it as a UUID first, then falling back to using it as the crystal.

@@ -16,7 +16,7 @@ __all__ = (
 def dep_unlock_thisapp(
         session: engine.Session = fastapi.Depends(dep_dbsession),
         application: tables.Application = fastapi.Depends(dep_application_this),
-        unlock: UUID = fastapi.Query(...),
+        unlock: UUID = fastapi.Path(...),
 ) -> tables.Unlock:
     """
     Dependency which parses the ``unlock`` query parameter into a :class:`.tables.Unlock`, parsing it as a UUID.

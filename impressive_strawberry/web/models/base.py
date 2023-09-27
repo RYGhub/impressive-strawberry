@@ -4,7 +4,7 @@ import abc
 import datetime
 import uuid
 
-import pydantic
+import pydantic.v1
 
 import impressive_strawberry.database.tables
 
@@ -14,12 +14,12 @@ __all__ = (
 )
 
 
-class StrawberryModel(pydantic.BaseModel, metaclass=abc.ABCMeta):
+class StrawberryModel(pydantic.v1.BaseModel, metaclass=abc.ABCMeta):
     """
     Base model for :mod:`impressive_strawberry`\\ 's :mod:`pydantic` models.
     """
 
-    class Config(pydantic.BaseModel.Config):
+    class Config(pydantic.v1.BaseModel.Config):
         json_encoders = {
             uuid.UUID:
                 lambda obj: str(obj),
