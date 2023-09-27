@@ -1,61 +1,32 @@
-# Impressive Strawberry
+# ![](.media/icon.png) Impressive Strawberry
 
-_Achievements-as-a-service_
+A web API that allowing applications to manage achievements which can be unlocked by their users
 
-## About
+## Links
 
-Impressive Strawberry is a Web API that allows the consumer applications to manage user-unlockable achievements, and for external applications to unlock them
-for the users, notifying them in the process.
+[![PyPI](https://img.shields.io/pypi/v/impressive-strawberry)](https://pypi.org/project/impressive-strawberry/)
+ 
+[![Website](https://img.shields.io/website?url=https%3A%2F%strawberry.ryg.one%2F)](https://strawberry.ryg.one/)
 
-## Development
+## Installation
 
-### Design document
+Use the provided Docker image, configuring the following environment variables:
 
-The design document was made [on FigJam](https://www.figma.com/file/8J7exqW3srh0WNiICHnf0O/Medals?node-id=0%3A1).
+`IS_DB_URI`
+: SQLAlchemy engine URL to use to select the database.
 
-### Documentation
+`IS_WEB_HOST`
+: Host to bind the webserver to.
 
-Documentation is made available [via GitHub Pages](https://hub.ryg.one/impressive-strawberry/).
+`IS_WEB_PORT`
+: TCP port to bind the webserver to.
 
-### Tasks
+`IS_SECRET`
+: Secret used for administration tasks.
 
-Tasks to be done are published [on GitHub Issues](https://github.com/RYGhub/impressive-strawberry/issues).
+`CORS_ALLOW_ORIGINS`
+: Origins to return in the `Access-Control-Allow-Origins` header.
 
-If you **find a bug**, a **mistake**, or want to **suggest a new feature**,
-please [create a new issue](https://github.com/RYGhub/impressive-strawberry/issues/new)!
-
-### Pull requests
-
-Feel free to fork the project and continue developing it, but remember to [respect the AGPL 3.0+ license](LICENSE.txt)!
-
-If you want to contribute back to the main branch, please [open a new pull request](https://github.com/RYGhub/impressive-strawberry/pulls)!
-
-### Discussion
-
-A forum about the project is available [on GitHub Discussions](https://github.com/RYGhub/impressive-strawberry/discussions).
-
-If you want to **talk about the project**, or **ask a question** or even **help**,
-please [create a new discussion](https://github.com/RYGhub/impressive-strawberry/discussions/new)!
-
-### CI / CD
-
-CI and CD for this project is hosted [on GitHub Actions](https://github.com/RYGhub/impressive-strawberry/actions).
-
-[![🔨 Steffo's Python Poetry Workflow](https://github.com/RYGhub/impressive-strawberry/actions/workflows/stefflow.yml/badge.svg)](https://github.com/RYGhub/impressive-strawberry/actions/workflows/stefflow.yml)
-
-#### Jobs
-
-- _Tests_ are run **on every push** and **on every pull request**.
-- _CodeQL_ is run **every monday at 10:10 AM**.
-- _Build and publish_ are run **on every release**.
-
-All jobs can be triggered simultaneously by pressing the **Run Workflow**
-button [on the Workflow page](https://github.com/RYGhub/impressive-strawberry/actions/workflows/stefflow.yml).
-
-### Roadmap
+## Roadmap
 
 The roadmap is published [on GitHub Projects](https://github.com/orgs/RYGhub/projects/1/views/1).
-
-### Security
-
-Please report security vulnerabilities via email at `security@steffo.eu`.
