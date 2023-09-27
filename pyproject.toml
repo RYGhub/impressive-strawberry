@@ -142,7 +142,7 @@ classifiers = [
 # nothing means "this specific release"
 #          3.10.1  →  == 3.10.1
 
-python = "^3.9"
+python = "^3.11"
 fastapi = "^0.70.0"
 SQLAlchemy = "^1.4.26"
 alembic = "^1.7.4"
