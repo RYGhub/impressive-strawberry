@@ -15,7 +15,7 @@ __all__ = (
 def dep_group_thisapp(
         session: engine.Session = fastapi.Depends(dep_dbsession),
         application: tables.Application = fastapi.Depends(dep_application_this),
-        group: str = fastapi.Query(...)
+        group: str = fastapi.Path(...)
 ) -> tables.Group:
     """
     Dependency which parses the ``group`` query parameter into a :class:`.tables.Group`, trying to parse it as a UUID first, then falling back to using it as the crystal.

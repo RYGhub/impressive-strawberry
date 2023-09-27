@@ -6,7 +6,10 @@ import dotenv
 import fastapi.middleware.cors as cors
 import uvicorn
 
-logging.basicConfig(level="DEBUG")
+from impressive_strawberry.utils import install_general_log_handlers
+
+install_general_log_handlers()
+
 log = logging.getLogger(__name__)
 
 dotenv.load_dotenv(".env", override=True)
@@ -25,4 +28,4 @@ app.add_middleware(
 )
 log.info("Running impressive_strawberry with Uvicorn...")
 # noinspection PyTypeChecker
-uvicorn.run(app, port=int(os.environ["IS_WEB_PORT"]), host=os.environ["IS_WEB_HOST"])
+uvicorn.run(app, port=int(os.environ["IS_WEB_PORT"]), host=os.environ["IS_WEB_HOST"], log_config=None)
