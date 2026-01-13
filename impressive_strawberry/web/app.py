@@ -1,7 +1,7 @@
 import pathlib
 
 import fastapi
-import pkg_resources
+import importlib.metadata
 import sqlalchemy.exc
 
 from impressive_strawberry.web.errors import StrawberryException
@@ -19,11 +19,13 @@ from impressive_strawberry.web.routes.root import home as route_home
 with open(pathlib.Path(__file__).parent.joinpath("description.md")) as file:
     description = file.read()
 
+__version__ = importlib.metadata.version("impressive_strawberry")
+
 app = fastapi.FastAPI(
     debug=__debug__,
     title="Impressive Strawberry",
     description=description,
-    version=pkg_resources.get_distribution("impressive_strawberry").version,
+    version=__version__,
 )
 app.include_router(router_api_application_v1)
 app.include_router(router_api_group_v1)
