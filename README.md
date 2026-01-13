@@ -6,6 +6,14 @@
 </hgroup>
 </div>
 
+> [!Danger]
+>
+> Development on this project is inactive.
+> 
+> Its dependencies are outdated and likely to have security vulnerabilities.
+>
+> **Do not make accessible to the public Internet as-is!**
+
 ## Links
 
 ### Tools
