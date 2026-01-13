@@ -6,7 +6,7 @@
 </hgroup>
 </div>
 
-> [!Danger]
+> [!Caution]
 >
 > Development on this project is inactive.
 > 
