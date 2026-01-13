@@ -48,6 +48,10 @@ Repository = "https://github.com/RYGhub/impressive-strawberry/"
 Issues = "https://github.com/RYGhub/impressive-strawberry/issues"
 
 
+[project.scripts]
+impressive-strawberry-dev = "impressive_strawberry.web.__main__:main"
+
+
 [dependency-groups]
 dev = [
 	"Sphinx (>=4.2.0,<5)",
